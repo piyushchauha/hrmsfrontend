@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Form from "react-bootstrap/Form";
 
 import Col from "react-bootstrap/Col";
@@ -11,11 +11,15 @@ function OfficialDetails({ setOfficialData }: { setOfficialData: React.Dispatch<
 
   function InputChange(e: any) {
     setFormData({ ...FormData, [e.target.name]: e.target.value });
-    // console.log(FormData);
+
     setOfficialData(FormData);
+    console.log(FormData);
+
+
   }
-
-
+  // useEffect(() => {
+  //   console.log("FormData", FormData);
+  // }, [FormData])
 
   return (
     <div className="officialcontainer" >

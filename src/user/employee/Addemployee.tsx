@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import OfficialDetails from "./OfficialDetails";
 import PersonalDetails from "./PersonalDetails";
@@ -12,7 +12,7 @@ function AddEmployee() {
 
   const [PersonalData, setPersonalData] = useState('');
   const [OfficialData, setOfficialData] = useState('');
-
+  const [emp, setemp] = useState<any[]>([]);
   function handlepersonal() {
     setactive('personal');
     settoggle('personal')
@@ -28,8 +28,14 @@ function AddEmployee() {
       personal: PersonalData,
       official: OfficialData
     }
-    console.log(employee, "Saving");
+    console.log("employee", employee);
+    setemp([...emp, employee]);
+    console.log("setemp", emp);
   }
+  useEffect(() => {
+    console.log("eeee", emp);
+  }, [emp]);
+
   const navigate = useNavigate();
 
   return (
