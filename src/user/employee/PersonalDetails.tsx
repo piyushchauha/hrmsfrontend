@@ -193,7 +193,6 @@ function PersonalDetails({ setPersonalData }: { setPersonalData: React.Dispatch<
   )
 }
 const formcontainer = {
-  // width: "450px",
   width: '100%'
 };
 const contactline = {
