@@ -1,6 +1,8 @@
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
+import './index.css';
 
 import User from './user/User';
 import Employee from './user/employee/Employee';

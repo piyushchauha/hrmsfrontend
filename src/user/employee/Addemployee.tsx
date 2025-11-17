@@ -40,20 +40,20 @@ function AddEmployee() {
 
   return (
 
-    <Modal style={modalcontainer} show={true} >
-      <Modal.Header style={modalheader}>
+    <Modal className='modalcontainer' show={true} >
+      <Modal.Header className='modalheader'>
         <div className="titleconatiner">
-          <h1 style={headingstyle}>
+          <h1 className='headingstyle'>
             {id ? 'Edit Details' : 'Employee Details'}
           </h1>
         </div>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style={svgstyle} onClick={() => navigate('../')}>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className='svgstyle' onClick={() => navigate('../')}>
           <path d="M10.5859 12L2.79297 4.20706L4.20718 2.79285L12.0001 10.5857L19.793 2.79285L21.2072 4.20706L13.4143 12L21.2072 19.7928L19.793 21.2071L12.0001 13.4142L4.20718 21.2071L2.79297 19.7928L10.5859 12Z"></path></svg>
       </Modal.Header>
 
       <ModalBody>
         <div className="subcontainer">
-          <div className="uppersec " style={uppersec}>
+          <div className="uppersec " >
 
           </div>
           <NewForm FormData={FormData} setFormData={setFormData} />
@@ -73,36 +73,6 @@ function AddEmployee() {
 
 
 export default AddEmployee;
-
-
-
-const modalheader: any = {
-  display: 'flex',
-  justifyContent: 'space-between'
-}
-
-const modalcontainer: any = {
-  maxHeight: '100vh'
-}
-
-const headingstyle: any = {
-  textAlign: 'center'
-}
-
-const uppersec: any = {
-  display: 'flex',
-  justifyContent: 'space-between'
-}
-
-const svgstyle: any = {
-  height: '1em',
-  width: '1em',
-  cursor: 'pointer'
-
-}
-
-
-
 
 
 

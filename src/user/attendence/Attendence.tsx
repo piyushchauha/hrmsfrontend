@@ -1,50 +1,148 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Table } from 'react-bootstrap';
+import { Button, Col, Form, Table } from 'react-bootstrap';
 import { Outlet } from 'react-router-dom';
 import { _employeeService } from '../employee/EmployeeService';
 
 export function Attendence() {
-    const [AttendenceData, setAttendenceData] = useState([]);
+    const [AttendenceData, setAttendenceData] = useState<any[]>([]);
+    const [AttData, setAttData] = useState<any[]>([]);
+    const [FilteredDate, setFilteredDate] = useState('');
+    const attendencestore = JSON.stringify(AttData);
+    localStorage.setItem("Attendence", attendencestore);
+
+    function date() {
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = (today.getMonth() + 1);
+        const dd = (today.getDate());
+
+        return `${yyyy}-${mm}-${dd}`;
+        // return `${dd}-${mm}-${yyyy}`;
+    }
+
+    function converteddate() {
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = (today.getMonth() + 1);
+        const dd = (today.getDate());
+
+        // today.setDate(today.getDate() + 5);
+
+        // return `${yyyy}-${mm}-${dd}`;
+        return `${dd}-${mm}-${yyyy}`;
+    }
+
+    // console.log(new Date().toLocaleDateString('en-US'));
+
+    function getName(attendname: any) {
+
+        const employee = _employeeService.getById(Number(attendname));
+        if (employee) {
+            return employee.Name;
+        }
+
+    }
+
+    let filtereddata = [];
+
+    for (let i = 0; i < AttendenceData.length; i++) {
+        let emp = AttendenceData[i];
+        let marked = false;
+
+        for (let j = 0; j < AttData.length; j++) {
+
+            if (AttData[j].Name === emp.id && FilteredDate === AttData[j].Date) {
+                marked = true;
+                break;
+            }
+        }
+        if (!marked) {
+            filtereddata.push(emp);
+        }
+
+
+    }
+
+    function handleFilter(e: any) {
+        let selected = e.target.value;
+
+        setFilteredDate(selected);
+        console.log("selected", selected);
+    }
+
+    function handleattendence(status: any, employee: any) {
+        const cdate = date();
+        // const emp = getName(employee);
+        // console.log('emp.id', employee.id);
+        for (let i = 0; i < AttData.length; i++) {
+            // console.log('employee', employee);
+            if (AttData[i].Name === employee && AttData[i].Date === cdate) {
+
+                return;
+            }
+        }
+
+        const attdata = {
+            id: Date.now(),
+            Date: cdate,
+            Name: employee,
+            Attendence: status
+        }
+
+        setAttData([...AttData, attdata]);
+    }
+    useEffect(() => {
+        console.log(AttData);
+    }, [AttData])
 
     useEffect(() => {
         setAttendenceData(_employeeService.getData());
+        // console.log(AttendenceData);
+    }, []);
+
+
+    useEffect(() => {
+
     }, []);
     return (
         <div className='maincontainer'>
-            <div className='headingcontainer' style={headingcontainer}>
+            <div className='headingcontainer' >
 
                 <div className='titlecontainer'>
                     <h1>Attendence</h1>
                 </div>
-                {/* <div className='buttoncontainer'>
-                    <Button variant="primary" size="lg" style={addbtn} onClick={() => navigate('/u/employee/addemployee')}>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style={{ height: '1em', width: '1em', verticalAlign: 'middle' }}><path d="M13.0001 10.9999L22.0002 10.9997L22.0002 12.9997L13.0001 12.9999L13.0001 21.9998L11.0001 21.9998L11.0001 12.9999L2.00004 13.0001L2 11.0001L11.0001 10.9999L11 2.00025L13 2.00024L13.0001 10.9999Z"></path></svg>
-                        <span> Add Employee</span>
-                    </Button>
-                </div> */}
 
             </div>
+            <div className='filtercontainer' style={{ border: '1px solid #f5f5f5', height: '80px', width: '100%', marginBottom: '50px', backgroundColor: '#f5f5f5' }}>
+                <div className='subfiltercontainer' style={{ display: 'flex', width: '50%', columnGap: '20px' }}>
+                    <Form.Group as={Col} controlId="formGriddate" >
+                        <Form.Label>From</Form.Label>
+                        <Form.Control type="date" name='from' value={FilteredDate} onChange={handleFilter} />
+                    </Form.Group>
 
-            {/* </Navbar> */}
+                </div>
+            </div>
             <div className='tablecontainer'>
 
                 <Table striped bordered hover>
                     <thead>
-                        <tr style={trclass}>
+                        <tr className='trclass'>
                             <th>No.</th>
+                            <th>Date</th>
                             <th> Name</th>
                             <th>Attendence</th>
 
                         </tr>
                     </thead>
                     <tbody>
-                        {AttendenceData.map((attendence: any, att: number) => (
+                        {filtereddata.map((attendence: any, att: number) => (
                             <tr key={att}>
-                                <td style={tdclass}>{att + 1}</td>
-                                <td style={tdclass}>{attendence.Name}</td>
-                                <td style={tdclass}>
-                                    <Button variant="success" style={{ marginRight: '10px' }}>Present</Button>
-                                    <Button variant="danger">Absent</Button>
+                                <td className='tdclass'>{att + 1}</td>
+                                <td className='tdclass'>{/*attendence.Date*/}{converteddate()}</td>
+                                <td className='tdclass'>{getName(attendence.id)}</td>
+                                <td className='tdclass'>
+                                    <Button variant="success" style={{ marginRight: '10px' }} onClick={() => handleattendence('Present', attendence.id)}>Present</Button>
+                                    <Button variant="danger" onClick={() => handleattendence('Absent', attendence.id)}>Absent</Button>
                                 </td>
                             </tr>
                         ))}
@@ -60,17 +158,3 @@ export function Attendence() {
 }
 
 // export default Attendence;
-const headingcontainer: any = {
-    // display: 'flex',
-    // justifyContent: 'space-between',
-    padding: '40px 40px 60px 40px'
-}
-const trclass: any = {
-    textAlign: 'center'
-}
-
-const tdclass: any = {
-    textAlign: 'center',
-    verticalAlign: 'middle',
-    border: '1px solid #dee2e6'
-}

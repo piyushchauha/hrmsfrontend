@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -35,4 +35,84 @@
   to {
     transform: rotate(360deg);
   }
+} */
+
+/* Other Component css */
+.modalheader {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modalcontainer {
+  max-height: 100vh;
+}
+
+.headingstyle {
+  text-align: center;
+}
+
+.uppersec {
+  display: flex;
+  justify-content: space-between;
+}
+
+.svgstyle {
+  height: 1em;
+  width: 1em;
+  cursor: pointer;
+}
+
+.tdclass {
+  text-align: center;
+  vertical-align: middle;
+  border: 1px solid #dee2e6;
+}
+.trclass {
+  text-align: center;
+}
+
+.headingcontainer {
+  display: flex;
+  justify-content: space-between;
+  padding: 40px 40px 60px 40px;
+}
+
+.btnclass {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  column-gap: 10px;
+}
+
+.addbtn {
+  background-color: #a997df;
+  border: 1px solid #8e7dad;
+}
+
+.formcontainer {
+  width: 100%;
+}
+
+.TitleSidebar {
+  text-align: center;
+  margin: 42px 0px 20px 0px;
+}
+
+.TitleContainer {
+  height: 900px;
+  width: 250px;
+  background-color: #a997df;
+}
+.ulstyle {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+}
+
+.listyle {
+  list-style-type: none;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }

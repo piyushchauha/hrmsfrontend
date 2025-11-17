@@ -14,14 +14,14 @@ function DesignationForm({ FormData, setFormData }: any) {
 
     return (
         <div className='supermaincontain'>
-            <div className="formcontainer" style={formcontainer}>
-                <Form.Group className="mb-3 mt-3" controlId="formGridAddress1">
+            <div className="formcontainer" >
+                <Form.Group className="mb-3 mt-3" controlId="formGridName">
                     <Form.Label> Name</Form.Label>
                     <Form.Control placeholder="Name" name='Name' value={FormData.Name} onChange={InputChange} />
                 </Form.Group>
-                <Form.Group className="mb-3 mt-3" controlId="formGridAddress1">
+                <Form.Group className="mb-3 mt-3" controlId="formGridShortName">
                     <Form.Label>Short Name</Form.Label>
-                    <Form.Control placeholder="Full name" name='ShortName' value={FormData.ShortName} onChange={InputChange} />
+                    <Form.Control placeholder="Short Name" name='ShortName' value={FormData.ShortName} onChange={InputChange} />
                 </Form.Group>
 
             </div>
@@ -34,6 +34,3 @@ function DesignationForm({ FormData, setFormData }: any) {
 
 export default DesignationForm;
 
-const formcontainer = {
-    width: '100%'
-};

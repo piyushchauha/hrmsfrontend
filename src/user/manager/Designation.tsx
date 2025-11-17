@@ -4,6 +4,7 @@ import { Button, Table } from 'react-bootstrap';
 // import Navbar from 'react-bootstrap/Navbar';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { designationservice } from './DesignationService';
+import { Deserializer } from 'v8';
 
 function Designation() {
     const navigate = useNavigate();
@@ -13,6 +14,9 @@ function Designation() {
         setDesignationData(designationservice.getDesignationData());
 
     }, []);
+
+    const designationstore = JSON.stringify(DesignationData);
+    localStorage.setItem("Designation", designationstore);
 
     function handleDelete(designation: any) {
         if (window.confirm("Are you sure you want to delete this Manager?")) {
@@ -31,7 +35,7 @@ function Designation() {
 
     return (
         <div className='maincontainer'>
-            <div className='headingcontainer' style={headingcontainer}>
+            <div className='headingcontainer' >
                 {/* <Navbar className="bg-body-tertiary" > */}
                 {/* <Container style={managercontainer}> */}
                 <div className='titlecontainer'>
@@ -40,7 +44,7 @@ function Designation() {
                 {/* <Navbar.Toggle /> */}
                 {/* <Navbar.Collapse className="justify-content-end"> */}
                 <div className='buttoncontainer'>
-                    <Button variant="primary" size="lg" style={addbtn} onClick={() => navigate('/u/designation/adddesignation')}>
+                    <Button variant="primary" size="lg" className='addbtn' onClick={() => navigate('/u/designation/adddesignation')}>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style={{ height: '1em', width: '1em', verticalAlign: 'middle' }}><path d="M13.0001 10.9999L22.0002 10.9997L22.0002 12.9997L13.0001 12.9999L13.0001 21.9998L11.0001 21.9998L11.0001 12.9999L2.00004 13.0001L2 11.0001L11.0001 10.9999L11 2.00025L13 2.00024L13.0001 10.9999Z"></path></svg>
                         <span> Add Designation</span>
                     </Button>
@@ -53,7 +57,7 @@ function Designation() {
 
                 <Table striped bordered hover>
                     <thead>
-                        <tr style={trclass}>
+                        <tr className='trclass'>
                             <th>No.</th>
                             <th>Name</th>
                             <th>Short Name</th>
@@ -62,11 +66,11 @@ function Designation() {
                     </thead>
                     <tbody>
                         {DesignationData.map((designation: any, des: number) => (
-                            <tr key={des} style={trclass}>
-                                <td style={tdclass}>{des + 1}</td>
-                                <td style={tdclass}>{designation.Name}</td>
-                                <td style={tdclass}>{designation.ShortName}</td>
-                                <td style={btnclass}>
+                            <tr key={des} >
+                                <td className='tdclass'>{des + 1}</td>
+                                <td className='tdclass'>{designation.Name}</td>
+                                <td className='tdclass'>{designation.ShortName}</td>
+                                <td className='btnclass'>
                                     <Button variant="primary" style={{ marginRight: '10px' }} onClick={() => handleEdit(designation)}>Edit</Button>
                                     <Button variant="danger" onClick={() => handleDelete(designation)}>Delete</Button>
                                 </td>
@@ -85,33 +89,31 @@ function Designation() {
 
 export default Designation;
 
-const tdclass: any = {
-    textAlign: 'center',
-    verticalAlign: 'middle',
-    border: '1px solid #dee2e6'
-}
-const trclass: any = {
-    textAlign: 'center'
-}
+// const tdclass: any = {
+//     textAlign: 'center',
+//     verticalAlign: 'middle',
+//     border: '1px solid #dee2e6'
+// }
+// const trclass: any = {
+//     textAlign: 'center'
+// }
 
-const headingcontainer: any = {
-    display: 'flex',
-    marginBottom: '50px',
-    // paddingTop: '10px',
-    justifyContent: 'space-between',
-    padding: '40px 40px 10px 40px'
-}
+// const headingcontainer: any = {
+//     display: 'flex',
+//     justifyContent: 'space-between',
+//     padding: '40px 40px 60px 40px'
+// }
 
 
-const btnclass: any = {
-    textAlign: 'center',
-    display: ' flex',
-    justifyContent: 'center',
-    columnGap: '10px'
-}
+// const btnclass: any = {
+//     textAlign: 'center',
+//     display: ' flex',
+//     justifyContent: 'center',
+//     columnGap: '10px'
+// }
 
-const addbtn: any = {
-    backgroundColor: '#8E7DAD',
-    border: '1px solid #8E7DAD',
-}
+// const addbtn: any = {
+//     backgroundColor: '#A997DF',
+//     border: '1px solid #8E7DAD',
+// }
 
