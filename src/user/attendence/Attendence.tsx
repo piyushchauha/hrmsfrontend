@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Col, Form, Table } from 'react-bootstrap';
+import { Col, Form, Table } from 'react-bootstrap';
+
 import { Outlet } from 'react-router-dom';
 import { _employeeService } from '../employee/EmployeeService';
 
 export function Attendence() {
-    const [AttendenceData, setAttendenceData] = useState<any[]>([]);
-    const [AttData, setAttData] = useState<any[]>([]);
-    const [FilteredDate, setFilteredDate] = useState('');
-    const attendencestore = JSON.stringify(AttData);
-    localStorage.setItem("Attendence", attendencestore);
+    let [AttendenceArr, setAttendenceArr] = useState<any>([]);
+  
+    const [FilteredArr, setFilteredArr] = useState([]);
+  
+    const [Filter, setFilter] = useState({
+        FilteredDate: '',
+        FilteredDropdown: ''
+    })
+  
 
-    function date() {
+    function getDateFunc() {
         const today = new Date();
         const yyyy = today.getFullYear();
         const mm = (today.getMonth() + 1);
@@ -20,90 +25,124 @@ export function Attendence() {
         // return `${dd}-${mm}-${yyyy}`;
     }
 
-    function converteddate() {
+    function convertDateFunc() {
         const today = new Date();
         const yyyy = today.getFullYear();
         const mm = (today.getMonth() + 1);
         const dd = (today.getDate());
 
-        // today.setDate(today.getDate() + 5);
-
         // return `${yyyy}-${mm}-${dd}`;
         return `${dd}-${mm}-${yyyy}`;
     }
 
-    // console.log(new Date().toLocaleDateString('en-US'));
 
-    function getName(attendname: any) {
+    useEffect(() => {
+        // localStorage.removeItem('AttendenceArr')
+        let AttArr: any = localStorage.getItem('AttendenceArr');
+        console.log('AttArr', AttArr);
 
-        const employee = _employeeService.getById(Number(attendname));
+        if (AttArr) {
+
+            setAttendenceArr(AttendenceArr);
+            console.log(AttendenceArr);
+        }
+   
+        setAttendenceList(Filter.FilteredDate, Filter.FilteredDropdown);
+    }, [Filter.FilteredDate, Filter.FilteredDropdown]);
+
+    function getEmployeeName(empID: any) {
+        const employee = _employeeService.getById(Number(empID));
         if (employee) {
             return employee.Name;
         }
+        else {
+            return '';
 
+        }
     }
 
-    let filtereddata = [];
 
-    for (let i = 0; i < AttendenceData.length; i++) {
-        let emp = AttendenceData[i];
-        let marked = false;
+    function setAttendenceList(FilteredDate: any, FilteredDropdown: any) {
 
-        for (let j = 0; j < AttData.length; j++) {
 
-            if (AttData[j].Name === emp.id && FilteredDate === AttData[j].Date) {
-                marked = true;
-                break;
+        let employeeList = _employeeService.getData();
+        employeeList = employeeList.map((emp: any) => ({
+            id: 0,
+            Date: getDateFunc(),
+            EmployeeID: emp.id,
+            Attendence: 'Absent'
+        }));
+
+        console.log('AttendenceArr', AttendenceArr);
+
+        let FilteredArr: any = [];
+        for (let i = 0; i < employeeList.length; i++) {
+            const emp = employeeList[i];
+
+            for (let j = 0; j < AttendenceArr.length; j++) {
+                const att = AttendenceArr[j];
+
+                let dateflag = (FilteredDate === att.Date);
+                if (att.EmployeeID === emp.EmployeeID && dateflag) {
+                    emp.id = att.id;
+                    emp.Attendence = att.Attendence;
+                }
             }
-        }
-        if (!marked) {
-            filtereddata.push(emp);
-        }
 
+            let dropdownflag = true;
+            if (FilteredDropdown && FilteredDropdown !== 'Select') {
+                dropdownflag = (emp.Attendence.toLowerCase() === FilteredDropdown.toLowerCase());
+
+
+            }
+            if (dropdownflag) {
+                FilteredArr.push(emp);
+            }
+
+         
+        }
+        console.log('FilteredArr', FilteredArr)
+        setFilteredArr(FilteredArr)
 
     }
+
+ 
 
     function handleFilter(e: any) {
-        let selected = e.target.value;
 
-        setFilteredDate(selected);
-        console.log("selected", selected);
+        setFilter({ ...Filter, [e.target.name]: e.target.value });
+        setAttendenceList(Filter.FilteredDate, Filter.FilteredDropdown);
+
     }
+
+    // useEffect(() => {
+    //     console.log(Filter);
+    // }, [Filter]);
 
     function handleattendence(status: any, employee: any) {
-        const cdate = date();
-        // const emp = getName(employee);
-        // console.log('emp.id', employee.id);
-        for (let i = 0; i < AttData.length; i++) {
-            // console.log('employee', employee);
-            if (AttData[i].Name === employee && AttData[i].Date === cdate) {
+        console.log(status, employee);
 
-                return;
+        if (employee.id) {
+            for (let i = 0; i < AttendenceArr.length; i++) {
+                if (AttendenceArr[i].id === employee.id) {
+                    AttendenceArr[i].Attendence = status;
+                }
             }
         }
-
-        const attdata = {
-            id: Date.now(),
-            Date: cdate,
-            Name: employee,
-            Attendence: status
+        else {
+            employee.id = Date.now();
+            employee.Attendence = status;
+            AttendenceArr.push(employee)
         }
-
-        setAttData([...AttData, attdata]);
+        console.log(AttendenceArr);
+        setAttendenceArr(AttendenceArr);
+        localStorage.setItem('AttendenceArr', JSON.stringify(AttendenceArr));
+        console.log(AttendenceArr);
+        setAttendenceList(Filter.FilteredDate, Filter.FilteredDropdown);
+     
     }
-    useEffect(() => {
-        console.log(AttData);
-    }, [AttData])
-
-    useEffect(() => {
-        setAttendenceData(_employeeService.getData());
-        // console.log(AttendenceData);
-    }, []);
 
 
-    useEffect(() => {
-
-    }, []);
     return (
         <div className='maincontainer'>
             <div className='headingcontainer' >
@@ -113,13 +152,20 @@ export function Attendence() {
                 </div>
 
             </div>
-            <div className='filtercontainer' style={{ border: '1px solid #f5f5f5', height: '80px', width: '100%', marginBottom: '50px', backgroundColor: '#f5f5f5' }}>
-                <div className='subfiltercontainer' style={{ display: 'flex', width: '50%', columnGap: '20px' }}>
+            <div className='filtercontainer' style={{ border: '1px solid #f5f5f5', height: '80px', width: '100%', marginBottom: '50px', backgroundColor: '#f5f5f5', display: 'flex' }}>
+                <div className='subfiltercontainer' style={{ display: 'flex', width: '50%', columnGap: '20px', alignItems: 'center' }}>
                     <Form.Group as={Col} controlId="formGriddate" >
-                        <Form.Label>From</Form.Label>
-                        <Form.Control type="date" name='from' value={FilteredDate} onChange={handleFilter} />
+                        {/* <Form.Label>From</Form.Label> */}
+                        <Form.Control type="date" name="FilteredDate" value={Filter.FilteredDate} onChange={handleFilter} />
                     </Form.Group>
+                    <div className='Dropdowncontainer'>
+                        <select value={Filter.FilteredDropdown} name="FilteredDropdown" id="drop" onChange={handleFilter}>
+                            <option >Select</option>
+                            <option value="Present">Present</option>
+                            <option value="Absent">Absent</option>
 
+                        </select>
+                    </div>
                 </div>
             </div>
             <div className='tablecontainer'>
@@ -135,14 +181,32 @@ export function Attendence() {
                         </tr>
                     </thead>
                     <tbody>
-                        {filtereddata.map((attendence: any, att: number) => (
+                        {FilteredArr.map((attendence: any, att: number) => (
                             <tr key={att}>
                                 <td className='tdclass'>{att + 1}</td>
-                                <td className='tdclass'>{/*attendence.Date*/}{converteddate()}</td>
-                                <td className='tdclass'>{getName(attendence.id)}</td>
-                                <td className='tdclass'>
-                                    <Button variant="success" style={{ marginRight: '10px' }} onClick={() => handleattendence('Present', attendence.id)}>Present</Button>
-                                    <Button variant="danger" onClick={() => handleattendence('Absent', attendence.id)}>Absent</Button>
+                                <td className='tdclass'>{/*attendence.Date*/}{convertDateFunc()}</td>
+                                <td className='tdclass'>{getEmployeeName(attendence.EmployeeID)}</td>
+                                <td className='tdclass' style={{ display: 'flex', justifyContent: 'space-evenly' }}>
+
+                                    <Form.Check
+                                        type="radio"
+                                        label="Present"
+                                        name="Attendence"
+                                        id="Present"
+                                        value="Present"
+                                        style={{ color: 'green', fontWeight: 'bold' }}
+                                        onChange={() => handleattendence('Present', attendence)}
+                                    />
+                                    <Form.Check
+                                        type="radio"
+                                        label="Absent"
+                                        name="Attendence"
+                                        id="Absent"
+                                        value="Absent"
+                                        style={{ color: 'Red', fontWeight: 'bold' }}
+
+                                        onChange={() => handleattendence('Absent', attendence)}
+                                    />
                                 </td>
                             </tr>
                         ))}

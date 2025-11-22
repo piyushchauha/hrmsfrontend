@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import { Modal, ModalBody } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
-import NewForm from "./NewForm";
+import NewForm from "./Form";
 import { _employeeService } from "./EmployeeService";
 
 function AddEmployee() {
@@ -10,7 +10,7 @@ function AddEmployee() {
 
   const [FormData, setFormData] = useState({
     id: Date.now(),
-    Name: '', BirthDate: '', Gender: '', Code: '', JoiningDate: '', Mobile: '', Email: '', DesignationID: '',
+    Name: '', BirthDate: '', Gender: '', Code: '', JoiningDate: '', Mobile: '', Email: '', DesignationID: '', Password: '',
     Contact: { mobile: '', email: '', alternativemobile: '', alternativeemail: '' },
     Address: {
       Current: { Block: '', Building: '', LandMark: '', PinCode: '' },
@@ -21,7 +21,7 @@ function AddEmployee() {
 
 
   useEffect(() => {
-    if (id) {
+    if (id !== 'add') {
       const existing = _employeeService.getById(Number(id));
       if (existing) {
         setFormData(existing);
@@ -29,9 +29,11 @@ function AddEmployee() {
     }
   }, [id])
 
-  function handleSave() {
+  function HandleSave() {
     console.log("Employee FormData", FormData);
-    _employeeService.Add(FormData);
+    if (id === 'add') {
+      _employeeService.Add(FormData);
+    }
     console.log(_employeeService.getData());
     navigate('../');
   }
@@ -44,7 +46,7 @@ function AddEmployee() {
       <Modal.Header className='modalheader'>
         <div className="titleconatiner">
           <h1 className='headingstyle'>
-            {id ? 'Edit Details' : 'Employee Details'}
+            {id === 'add' ? 'Employee Details' : 'Edit Details'}
           </h1>
         </div>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className='svgstyle' onClick={() => navigate('../')}>
@@ -58,7 +60,7 @@ function AddEmployee() {
           </div>
           <NewForm FormData={FormData} setFormData={setFormData} />
           <div className="davecont" >
-            <Button variant="primary" onClick={handleSave} >{id ? 'Update' : 'Save'}</Button>
+            <Button variant="primary" onClick={HandleSave} >{id === 'add' ? 'Save' : 'Update'}</Button>
           </div>
         </div>
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import { Modal, ModalBody } from "react-bootstrap";
-import ManagerForm from "./DesignationForm";
+import ManagerForm from "./Form";
 import { useNavigate, useParams } from "react-router-dom";
 import { designationservice } from "./DesignationService";
 // import './App.css';
@@ -15,13 +15,15 @@ function AddDesigantion() {
 
     function handleSave() {
         console.log("DesignationFormData", FormData);
-        designationservice.AddData(FormData);
+        if (id === "add") {
+            designationservice.AddData(FormData);
+        }
         navigate('../');
     }
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (id) {
+        if (id !== 'add') {
             const existing = designationservice.getDataById(Number(id));
             if (existing) {
                 setFormData(existing);
@@ -33,7 +35,7 @@ function AddDesigantion() {
             <Modal.Header className="modalheader">
                 <div className="titleconatiner">
                     <h1 className="headingstyle">
-                        {id ? 'Edit Details' : ' Designation Details'}
+                        {id === 'add' ? 'Add Designation' : 'Edit Designation'}
                     </h1>
                 </div>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="svgstyle" onClick={() => navigate('../')}>
@@ -47,7 +49,7 @@ function AddDesigantion() {
                     </div>
                     <ManagerForm FormData={FormData} setFormData={setFormData} />
                     <div className="davecont" >
-                        <Button variant="primary" onClick={handleSave}>{id ? 'Update' : 'Save'}</Button>
+                        <Button variant="primary" onClick={handleSave}>{id === 'add' ? 'Save' : 'Update'}</Button>
                     </div>
                 </div>
 

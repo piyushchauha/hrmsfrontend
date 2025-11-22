@@ -116,3 +116,221 @@
   align-items: center;
   gap: 10px;
 }
+
+/* logincss */
+
+.mainlogincontainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 100px;
+}
+
+.sublogincontainer {
+  height: auto;
+  width: 475px;
+  /* border: 1px solid #d3d3d3; */
+  border-radius: 18px;
+  padding: 50px;
+  box-shadow: 0px 0px 12px 0px black;
+}
+
+.titlelogincontainer {
+  display: flex;
+  justify-content: center;
+  /* padding: 0px 0px 60px 0px; */
+  height: 100px;
+  align-items: center;
+}
+
+.logininputcontainer {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+}
+
+.forgetcontainer {
+  margin-top: 18px;
+}
+
+.loginbtncontainer {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.loginbtn {
+  padding: 16px 45%;
+  border-radius: 28px;
+}
+
+.forgetline {
+  display: flex;
+  justify-content: flex-end;
+  color: blue;
+}
+
+.inputtext {
+  padding: 12px;
+  border-radius: 24px;
+}
+
+.titleline {
+  font-size: 48px;
+  font-weight: bold;
+}
+
+/* ForgetPassword css */
+
+.subforgetcontainer {
+  height: auto;
+  width: 475px;
+  border-radius: 18px;
+  /* padding: 50px; */
+  padding-top: 20px;
+  box-shadow: 0px 0px 12px 0px black;
+}
+
+.Titleimagecontainer {
+  width: 100%;
+  justify-content: center;
+  display: flex;
+}
+
+.titleforgetcontainer {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0px 20px;
+}
+
+.inputbtncontainer {
+  display: flex;
+  flex-direction: column;
+  row-gap: 40px;
+}
+
+.forgetbtncontainer {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.backcontainer {
+  margin-top: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.backanchor {
+  text-decoration: none;
+  color: black;
+  display: flex;
+  align-items: flex-end;
+}
+
+.inputcontainer {
+  padding: 40px;
+}
+
+/* css of the otpverification */
+.subotpcontainer {
+  display: flex;
+  flex-direction: column;
+  row-gap: 25px;
+  width: 400px;
+  height: auto;
+  box-shadow: 0px 0px 10px 0px black;
+  border-radius: 24px;
+  padding: 20px;
+}
+
+.verifytext {
+  text-align: center;
+}
+.titleimagecontainer {
+  display: flex;
+  justify-content: center;
+}
+
+.otpimage {
+  height: 150px;
+  width: 120px;
+}
+
+.inputverifycontainer {
+  padding: 0px 45px;
+}
+
+.otpinput {
+  font-size: 24px;
+  text-align: center;
+  border-radius: 24px;
+}
+
+.verifybtncontainer {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0px;
+}
+
+.verifybtn {
+  padding: 10px 10%;
+  border-radius: 24px;
+}
+
+/* Resetpassword css */
+
+.subresetcontainer {
+  box-shadow: 0px 0px 12px 0px black;
+  height: auto;
+  width: 400px;
+  border-radius: 24px;
+  padding: 25px;
+}
+
+.titleresetcontainer {
+  margin-top: 20px;
+}
+
+.resetimgcontainer {
+  display: flex;
+  justify-content: center;
+}
+
+.resetinputcoontainer {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+}
+
+.resetbtncontainer {
+  display: flex;
+  justify-content: center;
+  margin: 40px 0px 25px 0px;
+}
+
+.resetbtn {
+  padding: 15px 40%;
+  border-radius: 24px;
+  background-color: #ff4f00;
+  border: 1px solid #ff4f00;
+}
+
+/* common class auth */
+.labelcontainer {
+  padding-left: 13px;
+}
+
+.firstcontainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 130px;
+}
+
+.textcenter {
+  text-align: center;
+}

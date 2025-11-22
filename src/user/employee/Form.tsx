@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react'
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import { designationservice } from '../manager/DesignationService';
+import { designationservice } from '../designation/DesignationService';
 // import Designation from '../manager/Designation';
 
 
 function NewForm({ FormData, setFormData }: any) {
 
-    const [designation, setDesignationData] = useState([]);
+    const [Designation, setDesignationData] = useState([]);
 
     useEffect(() => {
         setDesignationData(designationservice.getDesignationData());
@@ -61,12 +61,12 @@ function NewForm({ FormData, setFormData }: any) {
     return (
         <div className='supermaincontain'>
             <div className="formcontainer" style={formcontainer}>
-                <Form.Group className="mb-3 mt-3" controlId="formGridAddress1">
+                <Form.Group className="mb-3 mt-3" controlId="formGridfullname">
                     <Form.Label>Full Name</Form.Label>
                     <Form.Control placeholder="Full name" name='Name' value={FormData.Name} onChange={InputChange} />
                 </Form.Group>
                 <div className="d-flex" >
-                    <Form.Group as={Col} controlId="formGriddate">
+                    <Form.Group as={Col} controlId="formGridbirthdate">
                         <Form.Label>Birth Date</Form.Label>
                         <Form.Control type="date" name='BirthDate' value={FormData.BirthDate} onChange={InputChange} />
                     </Form.Group>
@@ -115,23 +115,23 @@ function NewForm({ FormData, setFormData }: any) {
                 </div>
                 <div className="contactcontainer">
                     <Row className="mb-1 mt-3">
-                        <Form.Group as={Col} controlId="formGridMobile">
+                        <Form.Group as={Col} controlId="formGridOfficialMobile">
                             <Form.Label>Mobile</Form.Label>
                             <Form.Control type="tel" placeholder="Mobile" name="mobile" value={FormData.Contact.mobile} onChange={InputChange} />
                         </Form.Group>
 
-                        <Form.Group as={Col} controlId="formGridEmail">
+                        <Form.Group as={Col} controlId="formGridOfficialEmail">
                             <Form.Label>Email</Form.Label>
                             <Form.Control type="email" placeholder="Email" name="email" value={FormData.Contact.email} onChange={InputChange} />
                         </Form.Group>
                     </Row>
                     <Row className="mb-3 mt-3">
-                        <Form.Group as={Col} controlId="formGridMobile">
+                        <Form.Group as={Col} controlId="formGridAlterMobile">
                             <Form.Label>Alternative Mobile</Form.Label>
                             <Form.Control type="tel" placeholder="Mobile" name="alternativemobile" value={FormData.Contact.alternativemobile} onChange={InputChange} />
                         </Form.Group>
 
-                        <Form.Group as={Col} controlId="formGridEmail">
+                        <Form.Group as={Col} controlId="formGridAlterEmail">
                             <Form.Label>Alternative Email</Form.Label>
                             <Form.Control type="email" placeholder="Email" name="alternativeemail" value={FormData.Contact.alternativeemail} onChange={InputChange} />
                         </Form.Group>
@@ -143,22 +143,22 @@ function NewForm({ FormData, setFormData }: any) {
                 <div className="addresscontainer " style={addresscontainer}>
                     <Col md={5} className="mb-3 mt-3 d-grid gap-2">
                         <Form.Label>Current</Form.Label>
-                        <Form.Group as={Row} controlId="formGridBlock">
+                        <Form.Group as={Row} controlId="formGridCurrentBlock">
                             <Form.Control type="text" placeholder="No./Block" name='Block' value={FormData.Address.Current.Block} onChange={InputChange} />
                         </Form.Group>
-                        <Form.Group as={Row} controlId="formGridbuilding">
+                        <Form.Group as={Row} controlId="formGridCurrentbuilding">
                             <Form.Control
                                 type="text"
                                 placeholder="Building Name/Society Name"
                                 name='Building' value={FormData.Address.Current.Building} onChange={InputChange}
                             />
                         </Form.Group>
-                        <Form.Group as={Row} controlId="formGridlandmark">
+                        <Form.Group as={Row} controlId="formGridCurrentlandmark">
                             <Form.Control type="text" placeholder="Landmark"
                                 name='LandMark' value={FormData.Address.Current.LandMark} onChange={InputChange}
                             />
                         </Form.Group>
-                        <Form.Group as={Row} controlId="formGridpincode">
+                        <Form.Group as={Row} controlId="formGridCurrentpincode">
                             <Form.Control type="text" placeholder="Pincode"
                                 name='PinCode' value={FormData.Address.Current.PinCode} onChange={InputChange}
                             />
@@ -166,20 +166,20 @@ function NewForm({ FormData, setFormData }: any) {
                     </Col>
                     <Col md={5} className="mb-3 mt-3 d-grid gap-2">
                         <Form.Label>Permanement</Form.Label>
-                        <Form.Group as={Row} controlId="formGridBlock">
+                        <Form.Group as={Row} controlId="formGridPermanentBlock">
                             <Form.Control type="text" placeholder="No./Block" name='PBlock' value={FormData.Address.Permanent.PBlock} onChange={InputChange} />
                         </Form.Group>
-                        <Form.Group as={Row} controlId="formGridbuilding">
+                        <Form.Group as={Row} controlId="formGridPermanentbuilding">
                             <Form.Control
                                 type="text"
                                 placeholder="Building Name/Society Name"
                                 name='PBuilding' value={FormData.Address.Permanent.PBuilding} onChange={InputChange}
                             />
                         </Form.Group>
-                        <Form.Group as={Row} controlId="formGridlandmark">
+                        <Form.Group as={Row} controlId="formGridPermanentlandmark">
                             <Form.Control type="text" placeholder="Landmark" name='PLandMark' value={FormData.Address.Permanent.PLandMark} onChange={InputChange} />
                         </Form.Group>
-                        <Form.Group as={Row} controlId="formGridpincode">
+                        <Form.Group as={Row} controlId="formGridPermanentpincode">
                             <Form.Control type="text" placeholder="Pincode" name='PPinCode' value={FormData.Address.Permanent.PPinCode} onChange={InputChange} />
                         </Form.Group>
                     </Col>
@@ -200,14 +200,18 @@ function NewForm({ FormData, setFormData }: any) {
                     </Form.Group>
                 </Row>
                 <Row className="mb-1 mt-3">
-                    <Form.Group as={Col} controlId="formGridmobile">
+                    <Form.Group as={Col} controlId="formGridpersonalmobile">
                         <Form.Label>Mobile</Form.Label>
                         <Form.Control type="tel" placeholder="Mobile" name="Mobile" value={FormData.Mobile} onChange={InputChange} />
                     </Form.Group>
 
-                    <Form.Group as={Col} controlId="formGridemail">
+                    <Form.Group as={Col} controlId="formGridpersonalemail">
                         <Form.Label>Email</Form.Label>
                         <Form.Control type="email" placeholder="Email" name="Email" value={FormData.Email} onChange={InputChange} />
+                    </Form.Group>
+                    <Form.Group className="mb-3 mt-3" controlId="formGridPassword">
+                        <Form.Label>Password</Form.Label>
+                        <Form.Control placeholder="Password" name='Password' value={FormData.Password} onChange={InputChange} />
                     </Form.Group>
                     <Form.Group controlId="formGridjobtitle" style={{ marginBottom: '20px' }}>
                         {/* {/* <Form.Label>Job Title</Form.Label> */}
@@ -215,7 +219,7 @@ function NewForm({ FormData, setFormData }: any) {
                         <Form.Label>Designation</Form.Label>
                         <Form.Select aria-label="Default select example" name="DesignationID" value={FormData.DesignationID} onChange={InputChange}>
                             <option>Select Designation</option>
-                            {designation.map((des: any, index: number) => (
+                            {Designation.map((des: any, index: number) => (
                                 <option key={index} value={des.id} id={des.id}>{des.Name}</option>
                             ))}
                         </Form.Select>

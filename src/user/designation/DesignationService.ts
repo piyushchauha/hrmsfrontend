@@ -14,8 +14,25 @@ class DesignationService{
         else{
         this.Data.push(data);
         }
+        this.SetData();
     }
+
+    GetData(){
+       const stored= localStorage.getItem("Designation");
+       if(stored){
+        this.Data=JSON.parse(stored);
+       }
+       return this.Data;
+    }
+
+   
+
+    SetData(){
+        localStorage.setItem("Designation",JSON.stringify(this.Data));
+    }
+
     getDesignationData(){
+        this.GetData();
         return this.Data;
     }
     delete(manager:any){
@@ -29,11 +46,13 @@ class DesignationService{
         if(index!==-1){
             this.Data.splice(index,1);
         }
+        this.SetData();
     }
     getDataById(id:any){
         let index=-1;
-        for(let i=0;i<this.Data.length;i++){
-            if(this.Data[i].id===id){
+        let Data=this.GetData();
+        for(let i=0;i<Data.length;i++){
+            if(Data[i].id===id){
                 index=i;
                 break;
             }

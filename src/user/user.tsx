@@ -1,8 +1,9 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
-import SidebarMenu from './SidebarMenu';
+import SidebarMenu from './sideBarMenu';
 
 function User() {
+
     return (
         <div style={{ display: 'flex' }}>
             <SidebarMenu />
