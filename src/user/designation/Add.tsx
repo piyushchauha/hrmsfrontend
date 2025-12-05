@@ -18,6 +18,12 @@ function AddDesigantion() {
         if (id === "add") {
             designationservice.AddData(FormData);
         }
+        else {
+
+            const updatedData = { ...FormData, id: Number(id) };
+            designationservice.AddData(updatedData);
+
+        }
         navigate('../');
     }
     const navigate = useNavigate();

@@ -1,20 +1,23 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import { designationservice } from '../designation/DesignationService';
+import CommonDropdwon from '../../common/CommonDropdown';
 // import Designation from '../manager/Designation';
 
 
 function NewForm({ FormData, setFormData }: any) {
+    // const [Designation, setDesignation] = useState([]);
+    let Designation: any = [];
+    Designation = designationservice.getDesignationData();
+    // setDesignation(designationservice.getDesignationData());
+    // const [Designation, setDesignationData] = useState([]);
 
-    const [Designation, setDesignationData] = useState([]);
+    // useEffect(() => {
+    //     setDesignationData(designationservice.getDesignationData());
 
-    useEffect(() => {
-        setDesignationData(designationservice.getDesignationData());
-
-    }, [])
-
+    // }, [])
 
     function InputChange(e: any) {
 
@@ -214,15 +217,17 @@ function NewForm({ FormData, setFormData }: any) {
                         <Form.Control placeholder="Password" name='Password' value={FormData.Password} onChange={InputChange} />
                     </Form.Group>
                     <Form.Group controlId="formGridjobtitle" style={{ marginBottom: '20px' }}>
-                        {/* {/* <Form.Label>Job Title</Form.Label> */}
-                        {/* <Form.Control type="text" placeholder="Jobtitle" name="JobTitle" value={FormData.JobTitle} onChange={InputChange} /> */}
-                        <Form.Label>Designation</Form.Label>
+                        <Form.Label>Job Title</Form.Label>
+                        <Form.Control type="text" placeholder="Jobtitle" name="JobTitle" value={FormData.JobTitle} onChange={InputChange} />
+                        {/* <Form.Label>Designation</Form.Label>
                         <Form.Select aria-label="Default select example" name="DesignationID" value={FormData.DesignationID} onChange={InputChange}>
                             <option>Select Designation</option>
                             {Designation.map((des: any, index: number) => (
                                 <option key={index} value={des.id} id={des.id}>{des.Name}</option>
                             ))}
-                        </Form.Select>
+                        </Form.Select> */}
+                        <CommonDropdwon type={Designation} label="Designation" name="DesignationID" value={FormData.DesignationID} onChange={InputChange} />
+
                     </Form.Group>
                 </Row>
             </div>

@@ -1,18 +1,36 @@
 import React, { useState } from 'react'
 import resetpassword from '../Assets/Images/resetpassword.png';
 import { Form } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 export default function ResetPassword() {
+    const navigate = useNavigate();
     const [FormData, setFormData] = useState({
         newpassword: '', confirmpassword: ''
     })
+    // let forgotdata: any = [];
 
     function HandleSubmit() {
 
         if (FormData.newpassword === FormData.confirmpassword) {
             alert("New Password Updated");
+            const resetemail = localStorage.getItem('ResetEmail');
+            const stored = localStorage.getItem('Forgot') || '';
+            const storeddata = JSON.parse(stored);
+            for (let i = 0; i < storeddata.length; i++) {
+                if (storeddata[i].email === resetemail) {
+                    storeddata[i].password = FormData.confirmpassword;
+
+                }
+            }
+            localStorage.setItem('Forgot', JSON.stringify(storeddata))
+            localStorage.setItem('ResetEmail', "");
+            navigate('/login');
         }
+
+
         else {
             alert("New Password and Confirm Password should have same value");
+
         }
 
     }

@@ -4,23 +4,23 @@ import { Col, Form, Table } from 'react-bootstrap';
 import { Outlet } from 'react-router-dom';
 import { _employeeService } from '../employee/EmployeeService';
 
-export function Attendence() {
+function Attendence() {
     let [AttendenceArr, setAttendenceArr] = useState<any>([]);
-  
+
     const [FilteredArr, setFilteredArr] = useState([]);
-  
+
     const [Filter, setFilter] = useState({
         FilteredDate: '',
-        FilteredDropdown: ''
+        FilteredDropdown: '',
+        FilteredDropdownmy: '',
     })
-  
+
 
     function getDateFunc() {
         const today = new Date();
         const yyyy = today.getFullYear();
-        const mm = (today.getMonth() + 1);
-        const dd = (today.getDate());
-
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
         return `${yyyy}-${mm}-${dd}`;
         // return `${dd}-${mm}-${yyyy}`;
     }
@@ -28,32 +28,50 @@ export function Attendence() {
     function convertDateFunc() {
         const today = new Date();
         const yyyy = today.getFullYear();
-        const mm = (today.getMonth() + 1);
-        const dd = (today.getDate());
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
 
         // return `${yyyy}-${mm}-${dd}`;
         return `${dd}-${mm}-${yyyy}`;
     }
+
+    // useEffect(() => {
+    //     setAttendenceList(Filter.FilteredDate, Filter.FilteredDropdown);
+    // }, [Filter, AttendenceArr]);
 
 
     useEffect(() => {
         // localStorage.removeItem('AttendenceArr')
         let AttArr: any = localStorage.getItem('AttendenceArr');
         console.log('AttArr', AttArr);
+        const date = Filter.FilteredDate;
+        const currentdate = getDateFunc();
+        if (date > currentdate) {
+            alert("You cannot select the future date attendence");
+            setFilter({
+                FilteredDate: '',
+                FilteredDropdown: '',
+                FilteredDropdownmy: '',
+            })
+
+            return;
+        }
 
         if (AttArr) {
 
-            setAttendenceArr(AttendenceArr);
+            setAttendenceArr(JSON.parse(AttArr));
             console.log(AttendenceArr);
         }
-   
-        setAttendenceList(Filter.FilteredDate, Filter.FilteredDropdown);
-    }, [Filter.FilteredDate, Filter.FilteredDropdown]);
+
+        setAttendenceList(Filter.FilteredDate, Filter.FilteredDropdown, Filter.FilteredDropdownmy);
+        // setAttendenceList(Filter.FilteredDate, Filter.FilteredDropdown);
+
+    }, [Filter]);
 
     function getEmployeeName(empID: any) {
         const employee = _employeeService.getById(Number(empID));
         if (employee) {
-            return employee.Name;
+            return employee.Personal.Name;
         }
         else {
             return '';
@@ -62,15 +80,15 @@ export function Attendence() {
     }
 
 
-    function setAttendenceList(FilteredDate: any, FilteredDropdown: any) {
-
-
+    function setAttendenceList(FilteredDate: any, FilteredDropdown: any, FilteredDropdownmy: any) {
+        // function setAttendenceList(FilteredDate: any, FilteredDropdown: any) {
         let employeeList = _employeeService.getData();
         employeeList = employeeList.map((emp: any) => ({
             id: 0,
-            Date: getDateFunc(),
+            // Date: getDateFunc(),
+            Date: Filter.FilteredDate || getDateFunc(),
             EmployeeID: emp.id,
-            Attendence: 'Absent'
+            Attendence: 'Present'
         }));
 
         console.log('AttendenceArr', AttendenceArr);
@@ -84,8 +102,10 @@ export function Attendence() {
 
                 let dateflag = (FilteredDate === att.Date);
                 if (att.EmployeeID === emp.EmployeeID && dateflag) {
-                    emp.id = att.id;
-                    emp.Attendence = att.Attendence;
+                    if (att.EmployeeID === emp.EmployeeID) {
+                        emp.id = att.id;
+                        emp.Attendence = att.Attendence;
+                    }
                 }
             }
 
@@ -95,23 +115,50 @@ export function Attendence() {
 
 
             }
-            if (dropdownflag) {
+
+
+            let dropdownmyflag = true;
+            if (FilteredDropdownmy && FilteredDropdownmy !== 'Select') {
+                let currentmonth = new Date().getMonth() + 1
+                let currentyear = new Date().getFullYear();
+                let attdate = new Date(emp.Date);
+                let attmonth = attdate.getMonth() + 1;
+                let attyear = attdate.getFullYear();
+
+                console.log("currentmonth", currentmonth, "attmonth", attmonth);
+                console.log("currentyear", currentyear, "attyear", attyear);
+                if (FilteredDropdownmy === 'Monthly') {
+                    dropdownmyflag = (attmonth === currentmonth)
+                }
+                if (FilteredDropdownmy === 'Yearly') {
+                    dropdownmyflag = (attyear === currentyear)
+                }
+            }
+            // if ((dateflag && dropdownflag) || (dropdownflag && dropdownmyflag)) {
+            if (dropdownflag && dropdownmyflag) {
+                // if ((dropdownflag && dropdownmyflag) || (dropdownflag || dropdownmyflag)) {
+                // if ((FilteredDate && dropdownflag) || (dropdownflag && dropdownmyflag) || (FilteredDate && dropdownmyflag)) {
                 FilteredArr.push(emp);
+
             }
 
-         
+
         }
+
         console.log('FilteredArr', FilteredArr)
         setFilteredArr(FilteredArr)
 
     }
 
- 
+
 
     function handleFilter(e: any) {
 
         setFilter({ ...Filter, [e.target.name]: e.target.value });
-        setAttendenceList(Filter.FilteredDate, Filter.FilteredDropdown);
+
+        // setAttendenceList(Filter.FilteredDate, Filter.FilteredDropdown, Filter.FilteredDropdownmy);
+        // setAttendenceList(Filter.FilteredDate, Filter.FilteredDropdown);
+
 
     }
 
@@ -119,8 +166,12 @@ export function Attendence() {
     //     console.log(Filter);
     // }, [Filter]);
 
-    function handleattendence(status: any, employee: any) {
-        console.log(status, employee);
+    // function handleattendence(status: any, employee: any) {
+    function handleattendence(e: any, employee: any) {
+        // console.log(status, employee);
+
+        const checked = e.target.checked;
+        const status = checked ? 'Present' : 'Absent';
 
         if (employee.id) {
             for (let i = 0; i < AttendenceArr.length; i++) {
@@ -138,8 +189,8 @@ export function Attendence() {
         setAttendenceArr(AttendenceArr);
         localStorage.setItem('AttendenceArr', JSON.stringify(AttendenceArr));
         console.log(AttendenceArr);
-        setAttendenceList(Filter.FilteredDate, Filter.FilteredDropdown);
-     
+        // setAttendenceList(Filter.FilteredDate, Filter.FilteredDropdown);
+
     }
 
 
@@ -159,10 +210,18 @@ export function Attendence() {
                         <Form.Control type="date" name="FilteredDate" value={Filter.FilteredDate} onChange={handleFilter} />
                     </Form.Group>
                     <div className='Dropdowncontainer'>
-                        <select value={Filter.FilteredDropdown} name="FilteredDropdown" id="drop" onChange={handleFilter}>
+                        <select value={Filter.FilteredDropdown} name="FilteredDropdown" id="drop1" onChange={handleFilter}>
                             <option >Select</option>
                             <option value="Present">Present</option>
                             <option value="Absent">Absent</option>
+
+                        </select>
+                    </div>
+                    <div className='Dropdowncontainer'>
+                        <select value={Filter.FilteredDropdownmy} name="FilteredDropdownmy" id="drop2" onChange={handleFilter}>
+                            <option >Select</option>
+                            <option value="Monthly">Monthly</option>
+                            <option value="Yearly">Yearly</option>
 
                         </select>
                     </div>
@@ -184,29 +243,54 @@ export function Attendence() {
                         {FilteredArr.map((attendence: any, att: number) => (
                             <tr key={att}>
                                 <td className='tdclass'>{att + 1}</td>
-                                <td className='tdclass'>{/*attendence.Date*/}{convertDateFunc()}</td>
+                                {/* <td className='tdclass'>attendence.Date{convertDateFunc()}</td> */}
+                                {/* <td className='tdclass'>{Filter.FilteredDate || getDateFunc()}</td> */}
+                                <td className='tdclass'>{attendence.Date}</td>
                                 <td className='tdclass'>{getEmployeeName(attendence.EmployeeID)}</td>
                                 <td className='tdclass' style={{ display: 'flex', justifyContent: 'space-evenly' }}>
 
-                                    <Form.Check
+                                    {/* <Form.Check
                                         type="radio"
                                         label="Present"
-                                        name="Attendence"
-                                        id="Present"
+                                        name={`Attendence${att}`}
+                                        id={`Present${att}`}
                                         value="Present"
+                                        checked={attendence.Attendence === 'Present'}
                                         style={{ color: 'green', fontWeight: 'bold' }}
                                         onChange={() => handleattendence('Present', attendence)}
                                     />
                                     <Form.Check
                                         type="radio"
                                         label="Absent"
-                                        name="Attendence"
-                                        id="Absent"
+                                        name={`Attendence${att}`}
+                                        id={`Absent${att}`}
                                         value="Absent"
+                                        checked={attendence.Attendence === 'Absent'}
                                         style={{ color: 'Red', fontWeight: 'bold' }}
 
                                         onChange={() => handleattendence('Absent', attendence)}
+                                    /> */}
+                                    <Form.Check
+                                        type="checkbox"
+                                        label="Present"
+                                        name={`Attendence${att}`}
+                                        id={`Present${att}`}
+                                        value="Present"
+                                        checked={attendence.Attendence === 'Present'}
+                                        style={{ color: 'green', fontWeight: 'bold' }}
+                                        onChange={(e) => handleattendence(e, attendence)}
                                     />
+                                    {/* <Form.Check
+                                        type="checkbox"
+                                        label="Absent"
+                                        name={`Attendence${att}`}
+                                        id={`Absent${att}`}
+                                        value="Absent"
+                                        checked={attendence.Attendence === 'Absent'}
+                                        style={{ color: 'Red', fontWeight: 'bold' }}
+
+                                        onChange={() => handleattendence('Absent', attendence)}
+                                    /> */}
                                 </td>
                             </tr>
                         ))}
@@ -221,4 +305,4 @@ export function Attendence() {
     )
 }
 
-// export default Attendence;
+export default Attendence;

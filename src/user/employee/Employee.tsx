@@ -1,18 +1,20 @@
 import { Button, Table } from 'react-bootstrap';
 // import Container from 'react-bootstrap/Container';
 // import Navbar from 'react-bootstrap/Navbar';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { _employeeService } from './EmployeeService';
 import { useEffect, useState } from 'react';
 import { designationservice } from '../designation/DesignationService';
 
 
 function Employee() {
+    const location = useLocation();
     const [EmployeeArr, setEmployeeArr] = useState([]);
 
     useEffect(() => {
         setEmployeeArr(_employeeService.getData());
-    }, []);
+        console.log("EmployeeArr", EmployeeArr);
+    }, [location]);
 
 
 
@@ -75,17 +77,31 @@ function Employee() {
                             <th>Action</th>
                         </tr>
                     </thead>
+
                     <tbody>
 
+                        {/* {EmployeeArr.map((employee: any, emp: number) => ( */}
+
+                        {/* <tr key={emp} className='trclass'> */}
+                        {/* <td className='tdclass'>{emp + 1}</td> */}
+                        {/* <td className='tdclass'>{employee.Personal.Name}</td> */}
+                        {/* <td className='tdclass'>{employee.Email}</td> */}
+                        {/* <td className='tdclass'>{employee.Mobile}</td> */}
+                        {/* <td className='tdclass'>{GetName(employee.DesignationID)}</td> */}
+                        {/* <td className='btnclass'> <Button variant="primary" onClick={() => HandleEdit(employee)} style={{ marginRight: '5px' }}>Edit</Button> */}
+                        {/* <Button variant="danger" onClick={() => handleDelete(employee)}>Delete</Button></td> */}
+                        {/* </tr> */}
+
+                        {/* ))} */}
                         {EmployeeArr.map((employee: any, emp: number) => (
 
                             <tr key={emp} className='trclass'>
                                 <td className='tdclass'>{emp + 1}</td>
-                                <td className='tdclass'>{employee.Name}</td>
-                                <td className='tdclass'>{employee.Email}</td>
-                                <td className='tdclass'>{employee.Mobile}</td>
-                                <td className='tdclass'>{GetName(employee.DesignationID)}</td>
-                                <td className='btnclass'> <Button variant="primary" onClick={() => HandleEdit(employee)}>Edit</Button>
+                                <td className='tdclass'>{employee.Personal.Name}</td>
+                                <td className='tdclass'>{employee.Official.Email}</td>
+                                <td className='tdclass'>{employee.Official.Mobile}</td>
+                                <td className='tdclass'>{GetName(employee.Official.DesignationID)}</td>
+                                <td className='btnclass'> <Button variant="primary" onClick={() => HandleEdit(employee)} style={{ marginRight: '5px' }}>Edit</Button>
                                     <Button variant="danger" onClick={() => handleDelete(employee)}>Delete</Button></td>
                             </tr>
 

@@ -34,6 +34,12 @@ function AddEmployee() {
     if (id === 'add') {
       _employeeService.Add(FormData);
     }
+    else {
+
+      const updatedData = { ...FormData, id: Number(id) };
+      _employeeService.Add(updatedData);
+
+    }
     console.log(_employeeService.getData());
     navigate('../');
   }

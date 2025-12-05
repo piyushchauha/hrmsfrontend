@@ -2,17 +2,18 @@ import { useEffect, useState } from 'react';
 import { Button, Table } from 'react-bootstrap';
 // import Container from 'react-bootstrap/Container';
 // import Navbar from 'react-bootstrap/Navbar';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { designationservice } from './DesignationService';
 
 function Designation() {
+    const location=useLocation();
     const navigate = useNavigate();
     const [DesignationArr, setDesignationArr] = useState([]);
 
     useEffect(() => {
         setDesignationArr(designationservice.getDesignationData());
 
-    }, []);
+    }, [location]);
 
 
     function handleDelete(designation: any) {

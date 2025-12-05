@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import otpimage from '../Assets/Images/otpverify.png'
 import { Button, Form } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom';
-export function OtpVerification() {
+function OtpVerification() {
     const navigate = useNavigate();
     const [Otp, setOtp] = useState('');
     function HandleOtp() {
@@ -47,4 +47,4 @@ export function OtpVerification() {
     )
 }
 
-// export default OtpVerification
+export default OtpVerification

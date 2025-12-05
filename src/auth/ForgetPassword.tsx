@@ -6,15 +6,23 @@ import { Link, useNavigate } from 'react-router-dom';
 
 function ForgetPassword() {
     const navigate = useNavigate();
+    let existing: any = [];
     const emailregex = /^\S+@\S+\.\S+$/;
-    // const [Otp, setOtp] = useState(Number);
-    // const [Click, setClick] = useState(false);
     const [Email, setEmail] = useState('');
     let click = true;
-    function GenerateOtp() {
+
+    function HandleOtp() {
+
+        function generateotp() {
+
+            const genotp = (Math.floor(100000 + Math.random() * 900000));
+            localStorage.setItem("OTP", JSON.stringify(genotp));
+        }
+
         if (!Email) {
             alert("Fill up the email");
-            // localStorage.setItem("OTP", "");
+            // localStorage.setItem("Forgot", "");
+            // localStorage.setItem("ResetEmail", '');
             click = false;
             return;
 
@@ -26,18 +34,43 @@ function ForgetPassword() {
             return;
         }
         else {
-            // return Math.floor(100000+Math.random()*900000);
-            // console.log(Math.floor(100000 + Math.random() * 900000));
-            const genotp = (Math.floor(100000 + Math.random() * 900000));
-            // setOtp(genotp);
-            localStorage.setItem("OTP", JSON.stringify(genotp));
+
+            localStorage.setItem("ResetEmail", Email);
+            const storedvalue = localStorage.getItem('Forgot') || '';
+
+            if (storedvalue) {
+                existing = JSON.parse(storedvalue);
+
+            }
+            let found = false;
+            for (let i = 0; i < existing.length; i++) {
+                if (existing[i].email === Email) {
+                    found = true;
+                    break;
+                }
+            }
+
+            if (found) {
+                click = true;
+                generateotp();
+                navigate('/otpverification');
+
+            }
+            else {
+                const creditionals = {
+                    email: Email,
+                    password: ''
+                }
+                existing.push(creditionals);
+                generateotp();
+                localStorage.setItem("Forgot", JSON.stringify(existing));
+                if (click) {
+                    navigate('/otpverification', { replace: true });
+                }
+            }
         }
-        // setClick(true);
-        if (click) {
-            navigate('/otpverification', { replace: true });
-        }
-        // localStorage.setItem("OTP", "");
     }
+
 
 
     return (
@@ -64,7 +97,7 @@ function ForgetPassword() {
 
                         />
                         <div className="forgetbtncontainer" >
-                            <Button variant='primary' style={{ padding: '13px 45%', borderRadius: '28px', backgroundColor: '#4376d4ff' }} onClick={GenerateOtp}>Submit</Button>
+                            <Button variant='primary' style={{ padding: '13px 45%', borderRadius: '28px', backgroundColor: '#4376d4ff' }} onClick={HandleOtp}>Submit</Button>
                         </div>
 
                         <div className="backcontainer" >
