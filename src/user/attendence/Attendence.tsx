@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react'
-import { Col, Form, Table } from 'react-bootstrap';
+import { Button, Col, Form, Table } from 'react-bootstrap';
 
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { _employeeService } from '../employee/EmployeeService';
 
 function Attendence() {
     let [AttendenceArr, setAttendenceArr] = useState<any>([]);
+    const navigate = useNavigate();
 
     const [FilteredArr, setFilteredArr] = useState([]);
 
     const [Filter, setFilter] = useState({
         FilteredDate: '',
         FilteredDropdown: '',
-        FilteredDropdownmy: '',
+        // FilteredDropdownmy: '',
     })
 
 
@@ -25,15 +26,15 @@ function Attendence() {
         // return `${dd}-${mm}-${yyyy}`;
     }
 
-    function convertDateFunc() {
-        const today = new Date();
-        const yyyy = today.getFullYear();
-        const mm = String(today.getMonth() + 1).padStart(2, '0');
-        const dd = String(today.getDate()).padStart(2, '0');
+    // function convertDateFunc() {
+    //     const today = new Date();
+    //     const yyyy = today.getFullYear();
+    //     const mm = String(today.getMonth() + 1).padStart(2, '0');
+    //     const dd = String(today.getDate()).padStart(2, '0');
 
-        // return `${yyyy}-${mm}-${dd}`;
-        return `${dd}-${mm}-${yyyy}`;
-    }
+    //     // return `${yyyy}-${mm}-${dd}`;
+    //     return `${dd}-${mm}-${yyyy}`;
+    // }
 
     // useEffect(() => {
     //     setAttendenceList(Filter.FilteredDate, Filter.FilteredDropdown);
@@ -51,7 +52,7 @@ function Attendence() {
             setFilter({
                 FilteredDate: '',
                 FilteredDropdown: '',
-                FilteredDropdownmy: '',
+                // FilteredDropdownmy: '',
             })
 
             return;
@@ -63,8 +64,8 @@ function Attendence() {
             console.log(AttendenceArr);
         }
 
-        setAttendenceList(Filter.FilteredDate, Filter.FilteredDropdown, Filter.FilteredDropdownmy);
-        // setAttendenceList(Filter.FilteredDate, Filter.FilteredDropdown);
+        // setAttendenceList(Filter.FilteredDate, Filter.FilteredDropdown, Filter.FilteredDropdownmy);
+        setAttendenceList(Filter.FilteredDate, Filter.FilteredDropdown);
 
     }, [Filter]);
 
@@ -80,7 +81,7 @@ function Attendence() {
     }
 
 
-    function setAttendenceList(FilteredDate: any, FilteredDropdown: any, FilteredDropdownmy: any) {
+    function setAttendenceList(FilteredDate: any, FilteredDropdown: any) {
         // function setAttendenceList(FilteredDate: any, FilteredDropdown: any) {
         let employeeList = _employeeService.getData();
         employeeList = employeeList.map((emp: any) => ({
@@ -105,6 +106,7 @@ function Attendence() {
                     if (att.EmployeeID === emp.EmployeeID) {
                         emp.id = att.id;
                         emp.Attendence = att.Attendence;
+                        emp.Date = att.Date;
                     }
                 }
             }
@@ -117,25 +119,25 @@ function Attendence() {
             }
 
 
-            let dropdownmyflag = true;
-            if (FilteredDropdownmy && FilteredDropdownmy !== 'Select') {
-                let currentmonth = new Date().getMonth() + 1
-                let currentyear = new Date().getFullYear();
-                let attdate = new Date(emp.Date);
-                let attmonth = attdate.getMonth() + 1;
-                let attyear = attdate.getFullYear();
-
-                console.log("currentmonth", currentmonth, "attmonth", attmonth);
-                console.log("currentyear", currentyear, "attyear", attyear);
-                if (FilteredDropdownmy === 'Monthly') {
-                    dropdownmyflag = (attmonth === currentmonth)
-                }
-                if (FilteredDropdownmy === 'Yearly') {
-                    dropdownmyflag = (attyear === currentyear)
-                }
-            }
+            // let dropdownmyflag = true;
+            // if (FilteredDropdownmy && FilteredDropdownmy !== 'Select') {
+            //     let currentmonth = new Date().getMonth() + 1
+            //     let currentyear = new Date().getFullYear();
+            //     let attdate = new Date(emp.Date);
+            //     let attmonth = attdate.getMonth() + 1;
+            //     let attyear = attdate.getFullYear();
+            //     console.log("currentmonth", currentmonth, "attmonth", attmonth);
+            //     console.log("currentyear", currentyear, "attyear", attyear);
+            //     if (FilteredDropdownmy === 'Monthly') {
+            //         dropdownmyflag = (attmonth === currentmonth)
+            //     }
+            //     if (FilteredDropdownmy === 'Yearly') {
+            //         dropdownmyflag = (attyear === currentyear)
+            //     }
+            // }
             // if ((dateflag && dropdownflag) || (dropdownflag && dropdownmyflag)) {
-            if (dropdownflag && dropdownmyflag) {
+            // if (dropdownflag || dropdownmyflag) {
+            if (dropdownflag) {
                 // if ((dropdownflag && dropdownmyflag) || (dropdownflag || dropdownmyflag)) {
                 // if ((FilteredDate && dropdownflag) || (dropdownflag && dropdownmyflag) || (FilteredDate && dropdownmyflag)) {
                 FilteredArr.push(emp);
@@ -210,21 +212,25 @@ function Attendence() {
                         <Form.Control type="date" name="FilteredDate" value={Filter.FilteredDate} onChange={handleFilter} />
                     </Form.Group>
                     <div className='Dropdowncontainer'>
-                        <select value={Filter.FilteredDropdown} name="FilteredDropdown" id="drop1" onChange={handleFilter}>
+                        <select style={{ width: '115px', padding: '5px 5px 5px 6px', borderRadius: '24px' }} value={Filter.FilteredDropdown} name="FilteredDropdown" id="drop1" onChange={handleFilter}>
                             <option >Select</option>
                             <option value="Present">Present</option>
                             <option value="Absent">Absent</option>
 
                         </select>
                     </div>
-                    <div className='Dropdowncontainer'>
+                    <div style={{ display: 'flex' }}>
+                        <Button variant='primary' style={{ padding: '10px 60px', marginRight: '10px', borderRadius: '24px' }} onClick={() => navigate('/u/attendence/monthlyreports')}>Monthly</Button>
+                        <Button variant="primary" style={{ padding: '10px 60px', borderRadius: '24px' }}>Yearly </Button>
+                    </div>
+                    {/* <div className='Dropdowncontainer'>
                         <select value={Filter.FilteredDropdownmy} name="FilteredDropdownmy" id="drop2" onChange={handleFilter}>
                             <option >Select</option>
                             <option value="Monthly">Monthly</option>
                             <option value="Yearly">Yearly</option>
 
                         </select>
-                    </div>
+                    </div> */}
                 </div>
             </div>
             <div className='tablecontainer'>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
@@ -228,7 +228,7 @@ function PersonalDetails({ FormData, setFormData }: any) {
       {/* <button onClick={handlesubmit}>click</button> */}
       <Form.Group className="mb-3 " controlId="formGridPassword">
         <Form.Label>Password</Form.Label>
-        <Form.Control placeholder="Password" name='Password' value={FormData.Password} onChange={InputChange} />
+        <Form.Control type='password' placeholder="Password" name='Password' value={FormData.Password} onChange={InputChange} />
       </Form.Group>
     </div>
 

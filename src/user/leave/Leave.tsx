@@ -53,11 +53,11 @@ function Leave() {
     }
 
     function HandleDelete(leave: any) {
-        console.log("hii");
         if (window.confirm("Are sure you want to delete the leave dat of this employee")) {
             leaveservice.deleteById(leave);
-            const filteredData = LeaveArr.filter((emp: any) => emp.id !== leave.id);
-            setLeaveArr(filteredData);
+            setLeaveArr(leaveservice.getData());
+            // const filteredData = LeaveArr.filter((emp: any) => emp.id !== leave.id);
+            // setLeaveArr(filteredData);
         }
 
     }

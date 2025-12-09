@@ -68,19 +68,19 @@ function Add1() {
             <ModalBody>
                 <div className="subcontainer">
                     <div >
-                        <Button
-                            style={{
-                                borderRadius: '24px 0px 0px 24px'
+                        <Button className="personalbtn"
+                            // style={{
+                            //     borderRadius: '24px 0px 0px 24px'
 
-                            }}
+                            // }}
                             variant={ActiveTab === "personal" ? "primary" : "outline-primary"} onClick={() => HandleTab('personal')}>Personal</Button>
 
-                        <Button
-                            style={{
-                                borderRadius: '0px 24px 24px 0px',
-                                padding: '6px 22px 6px 12px'
+                        <Button className='officialbtn'
+                            // style={{
+                            //     borderRadius: '0px 24px 24px 0px',
+                            //     padding: '6px 22px 6px 12px'
 
-                            }}
+                            // }}
                             variant={ActiveTab === "official" ? "primary" : "outline-primary"} onClick={() => HandleTab('official')}>Official</Button>
                     </div>
                     {ActiveTab === "official" ? (

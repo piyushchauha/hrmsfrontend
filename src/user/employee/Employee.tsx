@@ -34,8 +34,9 @@ function Employee() {
     function handleDelete(employee: any) {
         if (window.confirm("Are you sure you want to delete this employee?")) {
             _employeeService.delete(employee);
-            const filteredData = EmployeeArr.filter((emp: any) => emp.id !== employee.id);
-            setEmployeeArr(filteredData);
+            setEmployeeArr(_employeeService.getData());
+            // const filteredData = EmployeeArr.filter((emp: any) => emp.id !== employee.id);
+            // setEmployeeArr(filteredData);
             // setEmployeeArr(_employeeService.getData());
             // console.log("Employee Data", EmployeeArr);
             // localStorage.setItem("EmployeeArr", JSON.stringify(filteredData));

@@ -6,7 +6,7 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { designationservice } from './DesignationService';
 
 function Designation() {
-    const location=useLocation();
+    const location = useLocation();
     const navigate = useNavigate();
     const [DesignationArr, setDesignationArr] = useState([]);
 
@@ -19,9 +19,10 @@ function Designation() {
     function handleDelete(designation: any) {
         if (window.confirm("Are you sure you want to delete this Manager?")) {
             designationservice.delete(designation);
-            const filteredData = designationservice.getDesignationData().filter((des: any) => des.id !== designation.id);
-            setDesignationArr(filteredData);
-            console.log("Designation Data", DesignationArr);
+            setDesignationArr(designationservice.GetData());
+            // const filteredData = designationservice.getDesignationData().filter((des: any) => des.id !== designation.id);
+            // setDesignationArr(filteredData);
+            // console.log("Designation Data", DesignationArr);
 
 
         }

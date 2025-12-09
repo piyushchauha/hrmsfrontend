@@ -19,6 +19,13 @@ import React, { Suspense } from 'react';
 import { Spinner } from 'react-bootstrap';
 import CommonDropdwon from './common/CommonDropdown';
 import Add1 from './user/employee/Add1';
+import Customer from './user/customer/Customer';
+import AddCustomer from './user/customer/Add';
+import Vender from './user/vender/Vender';
+import AddVender from './user/vender/Add';
+import Product from './user/product/Product';
+import AddProduct from './user/product/Add';
+// import { MonthlyReports } from './attenedencereports/MonthlyReports';
 // import OtpVerification from './auth/OtpVerification';
 // import Attendence from './user/attendence/Attendence';
 // import { OtpVerification } from './auth/OtpVerification';
@@ -39,7 +46,8 @@ const Logout = React.lazy(() => import('./auth/Logout'));
 const ResetPassword = React.lazy(() => import('./auth/ResetPassword'));
 const Leave = React.lazy(() => import('./user/leave/Leave'));
 const AddLeave = React.lazy(() => import('./user/leave/Add'));
-
+const MonthlyReports = React.lazy(() => import('./attenedencereports/MonthlyReports'));
+// const MonthlyReports = React.lazy(() => import('./attenedencereports/MonthlyReports'));
 // import { Route } from 'react-router-dom';
 function App() {
   return (
@@ -57,10 +65,25 @@ function App() {
           <Route element={<PrivateRoute />}>
             <Route index element={<Navigate to="/u/employee" replace />} />
             <Route path='/u' element={<User />} >
+              {/* Customer */}
+              <Route path='/u/customer' element={<Customer />} >
+                <Route path='/u/customer/:id' element={<AddCustomer />} />
+              </Route>
+              {/* Vendor */}
+              <Route path='/u/vender' element={<Vender />}>
+                <Route path='/u/vender/:id' element={<AddVender />} />
+              </Route>
+              {/* Product */}
+              <Route path='/u/product' element={<Product />}>
+                <Route path='/u/product/:id' element={<AddProduct />} />
+              </Route>
               {/* Attendence */}
               <Route path="/u/attendence" element={<Attendence />} ></Route>
+              <Route path='/u/attendence/monthlyreports' element={<MonthlyReports />} />
+
               {/* Leave */}
               <Route path="/u/leave" element={<Leave />}>
+
                 {/* <Route path='/u/leave/add' element={<Add />} /> */}
                 <Route path='/u/leave/:id' element={<AddLeave />} />
               </Route>
