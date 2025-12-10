@@ -44,22 +44,27 @@ function SidebarMenu() {
                 <button onClick={() => { navigate('/u/vender') }} > <li className="listyle">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style={{ width: '1em', height: '1em' }}>
                         <path d="M21 13V20C21 20.5523 20.5523 21 20 21H4C3.44772 21 3 20.5523 3 20V13H2V11L3 6H21L22 11V13H21ZM5 13V19H19V13H5ZM4.03961 11H19.9604L19.3604 8H4.63961L4.03961 11ZM6 14H14V17H6V14ZM3 3H21V5H3V3Z">
-                        </path></svg><span>Vendor</span></li></button>
+                        </path></svg><span>Vender</span></li></button>
                 {/* Product */}
                 <button onClick={() => { navigate('/u/product') }} > <li className="listyle">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style={{ width: '1em', height: '1em' }}>
                         <path d="M12 1L21.5 6.5V17.5L12 23L2.5 17.5V6.5L12 1ZM5.49388 7.0777L12.0001 10.8444L18.5062 7.07774L12 3.311L5.49388 7.0777ZM4.5 8.81329V16.3469L11.0001 20.1101V12.5765L4.5 8.81329ZM13.0001 20.11L19.5 16.3469V8.81337L13.0001 12.5765V20.11Z">
                         </path></svg><span>Product</span></li></button>
                 {/* Carriage Inward*/}
-                <button onClick={() => { navigate('/u/leave') }} > <li className="listyle" >
+                <button onClick={() => { navigate('/u/carriageinward') }} > <li className="listyle" >
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style={{ width: '1em', height: '1em' }}>
                         <path d="M1.99974 13.0001L1.9996 11.0002L18.1715 11.0002L14.2218 7.05044L15.636 5.63623L22 12.0002L15.636 18.3642L14.2218 16.9499L18.1716 13.0002L1.99974 13.0001Z">
                         </path></svg><span>Carr. Inward</span></li></button>
                 {/*Carriage Outward  */}
-                <button onClick={() => { navigate('/u/leave') }} > <li className="listyle">
+                <button onClick={() => { navigate('/u/carriageoutward') }} > <li className="listyle">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style={{ width: '1em', height: '1em' }}>
                         <path d="M22.0003 13.0001L22.0004 11.0002L5.82845 11.0002L9.77817 7.05044L8.36396 5.63623L2 12.0002L8.36396 18.3642L9.77817 16.9499L5.8284 13.0002L22.0003 13.0001Z">
                         </path></svg><span>Carr. Outward</span></li></button>
+                {/* Stock */}
+                <button onClick={() => { navigate('/u/stock') }} > <li className="listyle">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style={{ width: '1em', height: '1em' }}>
+                        <path d="M11.501 3V11.5H3.00098V3H11.501ZM11.501 21H3.00098V12.5H11.501V21ZM12.501 3H21.001V11.5H12.501V3ZM21.001 12.5V21H12.501V12.5H21.001Z">
+                        </path></svg><span>Stock</span></li></button>
                 {/* Logout */}
                 <button onClick={() => { navigate('/logout') }} > <li className="listyle">
                     {/* Attendence */}

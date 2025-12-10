@@ -1,21 +1,35 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Table } from 'react-bootstrap'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
-import { productservice } from './ProductService';
+import { productService } from './ProductService';
+import CommonTable from '../../common/CommonTable';
 
 function Product() {
     const location = useLocation();
     const navigate = useNavigate();
     const [ProductArr, setProductArr] = useState([]);
 
+
+    let Headers = [
+        { key: 'No', label: 'No.' },
+        { key: 'Name', label: 'Name' },
+        // { key: 'Quantity', label: 'Quantity' },
+    ]
+
+    let tabledata = ProductArr.map((product: any, pro: any) => ({
+        No: pro + 1,
+        Name: product.ProductName,
+        // Quantity: product.ProductQuantity,
+        original: product,
+    }))
     useEffect(() => {
-        setProductArr(productservice.GetData());
+        setProductArr(productService.GetData());
     }, [location])
 
     function HandleDelete(p: any) {
         if (window.confirm("Are you sure you want to delete this record>")) {
-            productservice.Delete(p);
-            setProductArr(productservice.GetData());
+            productService.Delete(p);
+            setProductArr(productService.GetData());
 
         }
 
@@ -40,7 +54,9 @@ function Product() {
                 </div>
 
             </div>
-            <div className='tablecontainer'>
+            <CommonTable Headers={Headers} data={tabledata} HandleEdit={(row: any) => HandleEdit(row.original)} HandleDelete={(row: any) => HandleDelete(row.original)} />
+
+            {/* <div className='tablecontainer'>
 
                 <Table striped bordered hover>
                     <thead>
@@ -69,7 +85,7 @@ function Product() {
                     </tbody>
                 </Table>
 
-            </div>
+            </div> */}
             <Outlet />
         </div>
     )

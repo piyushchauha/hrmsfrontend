@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Button, Modal, ModalBody } from 'react-bootstrap';
 import ProductForm from './Form';
 import { useNavigate, useParams } from 'react-router-dom';
-import { productservice } from './ProductService';
+import { productService } from './ProductService';
 
 function AddProduct() {
     const { id } = useParams();
@@ -15,12 +15,12 @@ function AddProduct() {
     // })
     function HandleSave() {
         if (id === "add") {
-            productservice.Add(FormData);
+            productService.Add(FormData);
         }
         else {
 
             const updatedData = { ...FormData, id: Number(id) };
-            productservice.Add(updatedData);
+            productService.Add(updatedData);
 
         }
         navigate('../');
@@ -28,7 +28,7 @@ function AddProduct() {
 
     useEffect(() => {
         if (id !== 'add') {
-            const existing = productservice.GetById(Number(id));
+            const existing = productService.GetById(Number(id));
             if (existing) {
                 setFormData(existing);
             }
@@ -50,7 +50,6 @@ function AddProduct() {
             <ModalBody>
                 <ProductForm FormData={FormData} setFormData={setFormData} />
                 <div className="davecont" >
-                    {/* <Button variant="primary" onClick={HandleSave} >{id === 'add' ? 'Save' : 'Update'}</Button> */}
                     <Button variant="primary" onClick={HandleSave}>{id === 'add' ? 'Save' : 'Update'}</Button>
                 </div>
 

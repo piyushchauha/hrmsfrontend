@@ -13,10 +13,10 @@ function ProductForm({ FormData, setFormData }: any) {
                     <Form.Label> Product Name</Form.Label>
                     <Form.Control type='text' placeholder="Name" name='ProductName' value={FormData.ProductName} onChange={InputChange} />
                 </Form.Group>
-                <Form.Group className="mb-3 mt-3" controlId="formGridQuantity">
+                {/* <Form.Group className="mb-3 mt-3" controlId="formGridQuantity">
                     <Form.Label>Quantity</Form.Label>
                     <Form.Control type='number' placeholder="Quantity" name='ProductQuantity' value={FormData.ProductQuantity} onChange={InputChange} />
-                </Form.Group>
+                </Form.Group> */}
 
 
             </div>

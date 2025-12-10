@@ -2,16 +2,31 @@ import React, { useEffect, useState } from 'react'
 import { Button, Table } from 'react-bootstrap'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { customerservice } from './CustomerService';
+import CommonTable from '../../common/CommonTable';
 
 function Customer() {
     const navigate = useNavigate();
     const location = useLocation();
     const [CustomerArr, setCustomerArr] = useState([]);
 
+    let Headers = [
+        { key: 'No', label: 'No.' },
+        { key: 'Name', label: 'Name' },
+        { key: 'Email', label: 'Email' },
+        { key: 'Mobile', label: 'Mobile No.' },
+    ]
+
+    const tabledata = CustomerArr.map((customer: any, cust: any) => ({
+        No: cust + 1,
+        Name: customer.CustomerName,
+        Email: customer.CustomerEmail,
+        Mobile: customer.CustomerMobile,
+        original: customer,
+    }))
 
     useEffect(() => {
         setCustomerArr(customerservice.GetData());
-        console.log(CustomerArr);
+        // console.log(CustomerArr);
     }, [location])
 
     function HandleDelete(c: any) {
@@ -42,7 +57,9 @@ function Customer() {
                 </div>
 
             </div>
-            <div className='tablecontainer'>
+            <CommonTable Headers={Headers} data={tabledata} HandleEdit={(row: any) => HandleEdit(row.original)} HandleDelete={(row: any) => HandleDelete(row.original)} />
+
+            {/* <div className='tablecontainer'>
 
                 <Table striped bordered hover>
                     <thead>
@@ -71,7 +88,7 @@ function Customer() {
                     </tbody>
                 </Table>
 
-            </div>
+            </div> */}
             <Outlet />
         </div>
     )

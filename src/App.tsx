@@ -25,6 +25,17 @@ import Vender from './user/vender/Vender';
 import AddVender from './user/vender/Add';
 import Product from './user/product/Product';
 import AddProduct from './user/product/Add';
+// import Stock from './Stock/Stock';
+import CarriageInward from './carriageinward/CarriageInward';
+import AddCarriageinward from './carriageinward/Add';
+import CarriageOutward from './carriageoutward/CarriageOutward';
+import AddCarriageoutward from './carriageoutward/Add';
+import Stock from './user/Stock/Stock';
+// import CarriageInward from './carriageinward/CarriageInward';
+// import AddCarriageinward from './carriageinward/Add';
+// import AddCarriageoutward from './carriageoutward/Add';
+// import CarriageOutward from './carriageoutward/CarriageOutward';
+// import Stock from './Stock/Stock';
 // import { MonthlyReports } from './attenedencereports/MonthlyReports';
 // import OtpVerification from './auth/OtpVerification';
 // import Attendence from './user/attendence/Attendence';
@@ -65,6 +76,8 @@ function App() {
           <Route element={<PrivateRoute />}>
             <Route index element={<Navigate to="/u/employee" replace />} />
             <Route path='/u' element={<User />} >
+              {/* Stock */}
+              <Route path='/u/stock' element={<Stock />} />
               {/* Customer */}
               <Route path='/u/customer' element={<Customer />} >
                 <Route path='/u/customer/:id' element={<AddCustomer />} />
@@ -76,6 +89,14 @@ function App() {
               {/* Product */}
               <Route path='/u/product' element={<Product />}>
                 <Route path='/u/product/:id' element={<AddProduct />} />
+              </Route>
+              {/* CarriageInward */}
+              <Route path='/u/carriageinward' element={<CarriageInward />}>
+                <Route path='/u/carriageinward/:id' element={<AddCarriageinward />} />
+              </Route>
+              {/* CarriageOutward */}
+              <Route path='/u/carriageoutward' element={<CarriageOutward />}>
+                <Route path='/u/carriageoutward/:id' element={<AddCarriageoutward />} />
               </Route>
               {/* Attendence */}
               <Route path="/u/attendence" element={<Attendence />} ></Route>

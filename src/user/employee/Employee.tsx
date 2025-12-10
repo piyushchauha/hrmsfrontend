@@ -5,11 +5,27 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { _employeeService } from './EmployeeService';
 import { useEffect, useState } from 'react';
 import { designationservice } from '../designation/DesignationService';
+import CommonTable from '../../common/CommonTable';
 
 
 function Employee() {
     const location = useLocation();
     const [EmployeeArr, setEmployeeArr] = useState([]);
+
+    const Headers = [
+        { key: 'No', label: 'No.' },
+        { key: 'Full', label: 'Full Name' },
+        { key: 'Email', label: 'Email' },
+        { key: 'DesignationID', label: 'Designation' },
+    ]
+
+    const tabledata = EmployeeArr.map((employee: any, emp: any) => ({
+        No: emp + 1,
+        Full: employee.Personal.Name,
+        Email: employee.Official.Email,
+        DesignationID: GetName(employee.Official.DesignationID),
+        original: employee
+    }))
 
     useEffect(() => {
         setEmployeeArr(_employeeService.getData());
@@ -31,7 +47,7 @@ function Employee() {
 
     }
 
-    function handleDelete(employee: any) {
+    function HandleDelete(employee: any) {
         if (window.confirm("Are you sure you want to delete this employee?")) {
             _employeeService.delete(employee);
             setEmployeeArr(_employeeService.getData());
@@ -63,9 +79,10 @@ function Employee() {
                 </div>
 
             </div>
+            <CommonTable Headers={Headers} data={tabledata} HandleEdit={(row: any) => HandleEdit(row.original)} HandleDelete={(row: any) => HandleDelete(row.original)} />
 
             {/* </Navbar> */}
-            <div className='tablecontainer'>
+            {/* <div className='tablecontainer'>
 
                 <Table striped bordered hover>
                     <thead>
@@ -79,22 +96,22 @@ function Employee() {
                         </tr>
                     </thead>
 
-                    <tbody>
+                    <tbody> */}
 
-                        {/* {EmployeeArr.map((employee: any, emp: number) => ( */}
+            {/* {EmployeeArr.map((employee: any, emp: number) => ( */}
 
-                        {/* <tr key={emp} className='trclass'> */}
-                        {/* <td className='tdclass'>{emp + 1}</td> */}
-                        {/* <td className='tdclass'>{employee.Personal.Name}</td> */}
-                        {/* <td className='tdclass'>{employee.Email}</td> */}
-                        {/* <td className='tdclass'>{employee.Mobile}</td> */}
-                        {/* <td className='tdclass'>{GetName(employee.DesignationID)}</td> */}
-                        {/* <td className='btnclass'> <Button variant="primary" onClick={() => HandleEdit(employee)} style={{ marginRight: '5px' }}>Edit</Button> */}
-                        {/* <Button variant="danger" onClick={() => handleDelete(employee)}>Delete</Button></td> */}
-                        {/* </tr> */}
+            {/* <tr key={emp} className='trclass'> */}
+            {/* <td className='tdclass'>{emp + 1}</td> */}
+            {/* <td className='tdclass'>{employee.Personal.Name}</td> */}
+            {/* <td className='tdclass'>{employee.Email}</td> */}
+            {/* <td className='tdclass'>{employee.Mobile}</td> */}
+            {/* <td className='tdclass'>{GetName(employee.DesignationID)}</td> */}
+            {/* <td className='btnclass'> <Button variant="primary" onClick={() => HandleEdit(employee)} style={{ marginRight: '5px' }}>Edit</Button> */}
+            {/* <Button variant="danger" onClick={() => handleDelete(employee)}>Delete</Button></td> */}
+            {/* </tr> */}
 
-                        {/* ))} */}
-                        {EmployeeArr.map((employee: any, emp: number) => (
+            {/* ))} */}
+            {/* {EmployeeArr.map((employee: any, emp: number) => (
 
                             <tr key={emp} className='trclass'>
                                 <td className='tdclass'>{emp + 1}</td>
@@ -110,7 +127,7 @@ function Employee() {
                     </tbody>
                 </Table>
 
-            </div>
+            </div> */}
             <Outlet />
         </div >
 

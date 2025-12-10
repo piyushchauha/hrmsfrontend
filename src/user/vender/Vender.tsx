@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Button, Table } from 'react-bootstrap';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { venderservice } from './VenderService';
+import CommonTable from '../../common/CommonTable';
 
 function Vender() {
     const location = useLocation();
@@ -11,6 +12,21 @@ function Vender() {
     useEffect(() => {
         setVenderArr(venderservice.getData());
     }, [location])
+
+    const Headers = [
+        { key: 'No', label: 'No.' },
+        { key: 'Name', label: 'Name' },
+        { key: 'Email', label: 'Email' },
+        { key: 'Mobile', label: 'Mobile' }
+    ]
+
+    const tabledata = VenderArr.map((vender: any, ven: any) => ({
+        No: ven + 1,
+        Name: vender.VenderName,
+        Email: vender.VenderEmail,
+        Mobile: vender.VenderMobile,
+        original: vender,
+    }))
 
     function HandleDelete(vender: any) {
         if (window.confirm("Are you sure you want to delte this record?")) {
@@ -38,7 +54,9 @@ function Vender() {
                 </div>
 
             </div>
-            <div className='tablecontainer'>
+            <CommonTable Headers={Headers} data={tabledata} HandleEdit={(row: any) => HandleEdit(row.original)} HandleDelete={(row: any) => HandleDelete(row.original)} />
+
+            {/* <div className='tablecontainer'>
 
                 <Table striped bordered hover>
                     <thead>
@@ -67,7 +85,7 @@ function Vender() {
                     </tbody>
                 </Table>
 
-            </div>
+            </div> */}
             <Outlet />
         </div>
 

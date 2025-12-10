@@ -4,19 +4,31 @@ import { Button, Table } from 'react-bootstrap';
 // import Navbar from 'react-bootstrap/Navbar';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { designationservice } from './DesignationService';
+import CommonTable from '../../common/CommonTable';
 
 function Designation() {
     const location = useLocation();
     const navigate = useNavigate();
     const [DesignationArr, setDesignationArr] = useState([]);
 
+    const Headers = [
+        { key: 'No', label: 'No.' },
+        { key: 'Name', label: 'Name' },
+        { key: 'ShortName', label: 'Short Name' },
+    ]
+
     useEffect(() => {
         setDesignationArr(designationservice.getDesignationData());
 
     }, [location]);
 
-
-    function handleDelete(designation: any) {
+    const tabledata = DesignationArr.map((designation: any, des: any) => ({
+        No: des + 1,
+        Name: designation.Name,
+        ShortName: designation.ShortName,
+        original: designation,
+    }))
+    function HandleDelete(designation: any) {
         if (window.confirm("Are you sure you want to delete this Manager?")) {
             designationservice.delete(designation);
             setDesignationArr(designationservice.GetData());
@@ -28,7 +40,7 @@ function Designation() {
         }
     }
 
-    function handleEdit(designation: any) {
+    function HandleEdit(designation: any) {
         navigate(`/u/designation/${designation.id}`);
     }
 
@@ -52,7 +64,9 @@ function Designation() {
                     </Container>
                 </Navbar> */}
             </div>
-            <div className='tablecontainer'>
+            <CommonTable Headers={Headers} data={tabledata} HandleEdit={(row: any) => HandleEdit(row.original)} HandleDelete={(row: any) => HandleDelete(row.original)} />
+
+            {/* <div className='tablecontainer'>
 
                 <Table striped bordered hover>
                     <thead>
@@ -80,7 +94,7 @@ function Designation() {
                     </tbody>
                 </Table>
 
-            </div>
+            </div> */}
             <Outlet />
         </div>
     )
