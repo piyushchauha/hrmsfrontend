@@ -3,7 +3,8 @@ import { Table } from 'react-bootstrap';
 // import { carriageinwardService } from '../carriageinward/carriageInwardService';
 // import { carriageoutwardService } from '../carriageoutward/carriageOutwardService';
 import { Outlet } from 'react-router-dom';
-import { productService } from '../product/ProductService';
+// import { productService } from '../product/ProductService';
+import { stockService } from './StockService';
 // import { productService } from '../user/product/ProductService';
 
 function Stock() {
@@ -11,16 +12,18 @@ function Stock() {
     const [StockArr, setStockArr] = useState<any>([]);
 
     useEffect(() => {
-        const product = productService.GetData();
+        // const product = productService.GetData();
 
-        const Stockdata = product.map((pro: any) => ({
-            id: Date.now(),
-            ProductName: pro.ProductName,
-            InwardQuantity: 0,
-            OutwardQuantity: 0,
-            Total: 0
-        }))
-        setStockArr(Stockdata);
+        // const Stockdata = product.map((pro: any) => ({
+        //     id: Date.now(),
+        //     ProductName: pro.ProductName,
+        //     InwardQuantity: 0,
+        //     OutwardQuantity: 0,
+        //     Total: 0
+        // }))
+        // setStockArr(Stockdata);
+        const stockdata = stockService.GetData();
+        setStockArr(stockdata);
     }, [])
 
     // const product = productservice.GetData();
@@ -60,7 +63,7 @@ function Stock() {
                             <th>No.</th>
                             <th>Product</th>
                             <th>Inward Quantity</th>
-                            <th>Outward Quantity.</th>
+                            <th>Outward Quantity</th>
                             <th>Total</th>
 
                         </tr>

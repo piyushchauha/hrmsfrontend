@@ -8,8 +8,8 @@ function CommonTable({ Headers = [], data = [], HandleEdit, HandleDelete }: any)
             <Table striped bordered hover>
                 <thead>
                     <tr className='trclass'>
-                        {Headers.map((th: any) => (
-                            <th key={th}>{th.label}</th>
+                        {Headers.map((t: any, index: any) => (
+                            <th key={index}>{t.label}</th>
                         ))}
                         <th>Actions</th>
                     </tr>

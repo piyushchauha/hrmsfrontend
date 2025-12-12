@@ -20,9 +20,11 @@ function Login() {
         let found = false;
 
         const user = _employeeService.getData();
+        console.log(user);
+
         for (let i = 0; i < user.length; i++) {
-            email = user[i].Email;
-            password = user[i].Password;
+            email = user[i].Official.Email;
+            password = user[i].Personal.Password;
             if (email === FormData.email && password === FormData.password) {
                 found = true;
                 break;
@@ -31,9 +33,7 @@ function Login() {
         if (found) {
             localStorage.setItem("Logged", JSON.stringify({ password, email }));
             navigate('/u/employee', { replace: true });
-            // setTimeout(() => {
-            //     localStorage.setItem("Logged", "");
-            // }, 3000);
+
         }
         else {
             localStorage.setItem("Logged", "");

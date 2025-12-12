@@ -18,9 +18,9 @@ function AddProduct() {
             productService.Add(FormData);
         }
         else {
-
-            const updatedData = { ...FormData, id: Number(id) };
-            productService.Add(updatedData);
+            productService.Update(FormData);
+            // const updatedData = { ...FormData, id: Number(id) };
+            // productService.Add(updatedData);
 
         }
         navigate('../');

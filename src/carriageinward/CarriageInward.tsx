@@ -5,6 +5,7 @@ import { carriageinwardService } from './carriageInwardService';
 import { productService } from '../user/product/ProductService';
 import { venderservice } from '../user/vender/VenderService';
 import CommonTable from '../common/CommonTable';
+import { stockService } from '../user/Stock/StockService';
 
 function CarriageInward() {
     const location = useLocation();
@@ -46,13 +47,30 @@ function CarriageInward() {
         }
     }
     function HandleDelete(inward: any) {
+        // const InwardQuantity = stockService.getInwardQuantity(inward.ProductID);
+        // console.log(InwardQuantity);
+        // console.log(inward.InwardQuantity);
+        // let updatedinward = InwardQuantity - inward.InwardQuantity;
+        // console.log(inw);
+        // console.log(getProductName(inward.ProductID));
         if (window.confirm("Are you sure you want to delete this record>")) {
+            const InwardQuantity = stockService.getInwardQuantity(inward.ProductID);
+            let updatedinward = InwardQuantity - inward.InwardQuantity;
+
             carriageinwardService.Delete(inward);
+            // const inw = InwardQuantity - inward.InwardQuantity;
+            // console.log(inw);
+            stockService.Update(inward.ProductID,
+                // stockService.getInwardQuantity(inward.ProductID) - Number(inward.InwardQuantity),
+                // InwardQuantity - inward.InwardQuantity,
+                updatedinward,
+                stockService.getOutwardQuantity(inward.ProductID)
+            );
             setInwardArr(carriageinwardService.GetData());
 
         }
-
     }
+
 
     function HandleEdit(inward: any) {
         navigate(`/u/carriageinward/${inward.id}`);

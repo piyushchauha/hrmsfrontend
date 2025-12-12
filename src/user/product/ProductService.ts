@@ -58,6 +58,60 @@ class ProductService{
             return Data[index];
         }
     }
+
+
+    Update(data:any){
+        let index=-1;
+        let Data=this.Data;
+        for(let i=0;i<Data.length;i++){
+            if(Data[i].id===data.id){
+                index=i;
+                break;
+            }
+        }
+        if(index!==-1){
+            Data[index]={...Data[index],...data};
+            this.SetData();
+        }
+    }
 }
 
 export const productService=new ProductService();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//  Update(data: any) {
+//     const index = this.Data.findIndex(x => x.id === data.id);
+
+//     if (index !== -1) {
+//       this.Data[index] = { ...this.Data[index], ...data };
+//       this.SetData();
+//       return true;
+//     }
+
+//     return false;
+//   }
+
+  

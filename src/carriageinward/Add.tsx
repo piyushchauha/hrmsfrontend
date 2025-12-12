@@ -5,6 +5,7 @@ import InwardForm from './Form';
 import { carriageinwardService } from './carriageInwardService';
 import { stockService } from '../user/Stock/StockService';
 import { productService } from '../user/product/ProductService';
+// import { carriageoutwardService } from '../carriageoutward/carriageOutwardService';
 
 function AddCarriageinward() {
     const navigate = useNavigate();
@@ -26,23 +27,42 @@ function AddCarriageinward() {
 
     function HandleSave() {
         let product = productService.GetById(Number(FormData.ProductID));
+        // let outward = carriageoutwardService.GetData().find((o: any) => o.ProductID === FormData.ProductID)
 
         if (id === 'add') {
             carriageinwardService.Add(FormData);
+
             stockService.Add(
                 Number(FormData.ProductID),
                 product.ProductName,
-                Number(FormData.InwardQuantity),
-                0
+                // Number(FormData.InwardQuantity),
+                stockService.getInwardQuantity(FormData.ProductID),
+                // outward ? outward.OutwardQuantity : 0
+                stockService.getOutwardQuantity(FormData.ProductID),
+
             );
 
         }
         else {
-            const updatedData = { ...FormData, id: Number(id) };
-            carriageinwardService.Add(updatedData);
+
+            carriageinwardService.Update(FormData);
+
+            stockService.Update(
+                Number(FormData.ProductID),
+                // Number(FormData.InwardQuantity),
+                stockService.getInwardQuantity(FormData.ProductID),
+                // outward ? outward.OutwardQuantity : 0
+                stockService.getOutwardQuantity(FormData.ProductID),
+            );
+
+            console.log("InwardQty", stockService.getInwardQuantity(FormData.ProductID));
+
         }
+
         navigate('../');
     }
+
+
     return (
         <Modal className='modalcontainer' show={true} >
             <Modal.Header className='modalheader'>
@@ -70,3 +90,21 @@ function AddCarriageinward() {
 }
 
 export default AddCarriageinward;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

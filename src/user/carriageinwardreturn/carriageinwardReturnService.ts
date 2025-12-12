@@ -1,4 +1,4 @@
-class VenderService{
+class carriageinwardReturnService{
 Data:any=[]
 Add(data:any){
     let index=-1;
@@ -17,14 +17,14 @@ Add(data:any){
     this.SetData();
 }
 GetData(){
-    const stored=localStorage.getItem("VenderArr");
+    const stored=localStorage.getItem("CarrInRetArr");
     if(stored){
         this.Data=JSON.parse(stored);
     }
     return this.Data;
 }
 SetData(){
-    localStorage.setItem("VenderArr",JSON.stringify(this.Data));
+    localStorage.setItem("CarrInRetArr",JSON.stringify(this.Data));
 }
 
 Delete(emp:any){
@@ -36,11 +36,13 @@ Delete(emp:any){
             break;
         }
     }
-    if(index!==1){
+    if(index!==-1){
         Data.splice(index,1);
+         this.SetData();
     }
-    this.SetData();
+   
 }
+
 
 GetById(emp:any){
     let index=-1
@@ -55,5 +57,21 @@ GetById(emp:any){
         return Data[index];
     }
 }
+
+
+Update(data:any){
+    let index=-1;
+    let Data=this.Data;
+    for(let i=0;i<Data.length;i++){
+        if(Data[i].id===data.id){
+            index=i;
+            break;
+        }
+    }
+    if(index!==-1){
+        Data[index]={...Data[index],...data};
+        this.SetData();
+    }
 }
-export const venderservice=new VenderService();
+}
+export const carrinretService=new carriageinwardReturnService();

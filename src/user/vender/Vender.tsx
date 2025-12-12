@@ -10,7 +10,7 @@ function Vender() {
     const [VenderArr, setVenderArr] = useState([]);
 
     useEffect(() => {
-        setVenderArr(venderservice.getData());
+        setVenderArr(venderservice.GetData());
     }, [location])
 
     const Headers = [
@@ -31,7 +31,7 @@ function Vender() {
     function HandleDelete(vender: any) {
         if (window.confirm("Are you sure you want to delte this record?")) {
             venderservice.Delete(vender);
-            setVenderArr(venderservice.getData());
+            setVenderArr(venderservice.GetData());
         }
     }
 

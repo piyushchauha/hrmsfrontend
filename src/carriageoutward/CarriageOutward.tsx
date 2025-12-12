@@ -5,6 +5,7 @@ import { productService } from '../user/product/ProductService';
 import { carriageoutwardService } from './carriageOutwardService';
 import { customerservice } from '../user/customer/CustomerService';
 import CommonTable from '../common/CommonTable';
+import { stockService } from '../user/Stock/StockService';
 
 function CarriageOutward() {
     let Headers = [
@@ -44,8 +45,20 @@ function CarriageOutward() {
         }
     }
     function HandleDelete(outward: any) {
+        // let outwardqty = stockService.getOutwardQuantity(outward.ProductID);
+        // console.log(outwardqty);
+        // let updatedoutwardqty = outwardqty - outward.OutwardQuantity;
+        // console.log(updatedoutwardqty);
         if (window.confirm("Are you sure you want to delete this record>")) {
+            let outwardqty = stockService.getOutwardQuantity(outward.ProductID);
+            let updatedoutwardqty = outwardqty - outward.OutwardQuantity;
             carriageoutwardService.Delete(outward);
+            stockService.Update(
+                outward.ProductID,
+                // stockService.getOutwardQuantity(outward.ProductID),\
+                updatedoutwardqty,
+                stockService.getInwardQuantity(outward.ProductID)
+            )
             setOutwardArr(carriageoutwardService.GetData());
 
         }

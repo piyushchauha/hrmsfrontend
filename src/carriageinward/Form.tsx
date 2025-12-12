@@ -13,7 +13,7 @@ function InwardForm({ FormData, setFormData }: any) {
     }));
 
     let VenderArr: any = [];
-    VenderArr = venderservice.getData();
+    VenderArr = venderservice.GetData();
     const venderoptions = VenderArr.map((ven: any) => ({
         id: ven.id,
         Name: ven.VenderName

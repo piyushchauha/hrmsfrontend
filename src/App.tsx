@@ -31,6 +31,13 @@ import AddCarriageinward from './carriageinward/Add';
 import CarriageOutward from './carriageoutward/CarriageOutward';
 import AddCarriageoutward from './carriageoutward/Add';
 import Stock from './user/Stock/Stock';
+// import CarriageInwardreturn from './user/CarriageInwardreturn/CarriageInwardreturn';
+import AddCarriageinwardreturn from './user/carriageinwardreturn/Add';
+import CarriageInwardreturn from './user/carriageinwardreturn/CarriageInwardreturn';
+import CarriageOutwardreturn from './user/carriageoutwardreturn/CarriageOutwardreturn';
+import AddCarriageoutwardreturn from './user/carriageoutwardreturn/Add';
+
+
 // import CarriageInward from './carriageinward/CarriageInward';
 // import AddCarriageinward from './carriageinward/Add';
 // import AddCarriageoutward from './carriageoutward/Add';
@@ -97,6 +104,14 @@ function App() {
               {/* CarriageOutward */}
               <Route path='/u/carriageoutward' element={<CarriageOutward />}>
                 <Route path='/u/carriageoutward/:id' element={<AddCarriageoutward />} />
+              </Route>
+              {/* CarriageInwardReturns */}
+              <Route path='/u/carriageinwardreturn' element={<CarriageInwardreturn />}>
+                <Route path='/u/carriageinwardreturn/:id' element={<AddCarriageinwardreturn />} />
+              </Route>
+              {/* CarriageOutwardReturn */}
+              <Route path='/u/carriageoutwardreturn' element={<CarriageOutwardreturn />}>
+                <Route path='/u/carriageoutwardreturn/:id' element={<AddCarriageoutwardreturn />} />
               </Route>
               {/* Attendence */}
               <Route path="/u/attendence" element={<Attendence />} ></Route>

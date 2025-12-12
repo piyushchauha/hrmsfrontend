@@ -4,6 +4,8 @@ import { useNavigate, useParams } from 'react-router-dom'
 import OutwardForm from './Form';
 import { carriageoutwardService } from './carriageOutwardService';
 import { carriageinwardService } from '../carriageinward/carriageInwardService';
+import { stockService } from '../user/Stock/StockService';
+import { productService } from '../user/product/ProductService';
 
 function AddCarriageoutward() {
     const navigate = useNavigate();
@@ -14,22 +16,31 @@ function AddCarriageoutward() {
     })
 
     function CheckQuantity() {
-        let InwardArr = carriageinwardService.GetData();
-        let product;
-        for (let i = 0; i < InwardArr.length; i++) {
-            if (InwardArr[i].ProductID === FormData.ProductID) {
-                product = InwardArr[i];
-                break;
-            }
-        }
-        if (product.InwardQuantity < FormData.OutwardQuantity) {
-            alert("Inward Quantity should be less than outward Quantity");
+        // let InwardArr = carriageinwardService.GetData();
+        // let product;
+        // for (let i = 0; i < InwardArr.length; i++) {
+        //     if (InwardArr[i].ProductID === FormData.ProductID) {
+        //         product = InwardArr[i];
+        //         break;
+        //     }
+        // }
+        // if (product.InwardQuantity < FormData.OutwardQuantity.padStart(2, "0")) {
+        //     alert("Inward Quantity should be less than outward Quantity");
+        //     return false;
+        // }
+        let inwardqty = stockService.getInwardQuantity(FormData.ProductID);
+        let outwardqty = stockService.getOutwardQuantity(FormData.ProductID);
+        console.log("inwardqty", inwardqty, "outwardqty", outwardqty);
+        if (inwardqty < outwardqty) {
+            alert("Outward Quantity should be less than inward quantity ");
+            console.log("inwardqty", inwardqty, "outwardqty", outwardqty);
+
             return false;
         }
         return true;
     }
+
     useEffect(() => {
-        // console.log(FormData);
         if (id !== 'add') {
             const existing = carriageoutwardService.GetById(Number(id));
             if (existing) {
@@ -40,18 +51,44 @@ function AddCarriageoutward() {
 
     function HandleSave() {
 
+
+        let product = productService.GetById(Number(FormData.ProductID));
+
+        if (id === 'add') {
+            carriageoutwardService.Add(FormData);
+            stockService.Add(
+                Number(FormData.ProductID),
+                product.ProductName,
+                // inward ? inward.InwardQuantity : 0,
+                stockService.getInwardQuantity(FormData.ProductID),
+
+                // Number(FormData.OutwardQuantity)
+                stockService.getOutwardQuantity(FormData.ProductID)
+
+            );
+
+        }
+        else {
+
+
+            carriageoutwardService.Update(FormData);
+
+            stockService.Update(
+                Number(FormData.ProductID),
+                // product.ProductName,
+                // inward ? inward.InwardQuantity : 0,
+                stockService.getInwardQuantity(FormData.ProductID),
+                // Number(FormData.OutwardQuantity)
+                stockService.getOutwardQuantity(FormData.ProductID),
+            );
+            console.log("OutwardQty", stockService.getOutwardQuantity(FormData.ProductID));
+        }
         if (!CheckQuantity()) {
             return;
         }
-        if (id === 'add') {
-            carriageoutwardService.Add(FormData);
-            CheckQuantity();
-        }
-        else {
-            const updatedData = { ...FormData, id: Number(id) };
-            carriageoutwardService.Add(updatedData);
-        }
+
         navigate('../');
+
     }
     return (
         <Modal className='modalcontainer' show={true} >
@@ -80,6 +117,24 @@ function AddCarriageoutward() {
 }
 
 export default AddCarriageoutward;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

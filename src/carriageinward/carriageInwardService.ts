@@ -1,3 +1,5 @@
+import { stockService } from "../user/Stock/StockService";
+
 class CarriageInward{
 Data:any=[]
 
@@ -45,6 +47,8 @@ Delete(pro:any){
         Data.splice(index,1);
     }
     this.SetData();
+    
+    
 }
 GetById(ID:any){
     let index=-1;
@@ -60,6 +64,24 @@ GetById(ID:any){
         return Data[index];
     }
 }
+Update(data:any){
+    let index=-1;
+    let Data=this.Data;
+    for(let i=0;i<Data.length;i++){
+        if(Data[i].id===data.id){
+            index=i;
+            break;
+        }
+    }
+    if(index!==-1){
+        Data[index]={...Data[index],...data};
+        this.SetData();
+    }
+}
+
+
+
+
 }
 
 export const carriageinwardService=new CarriageInward();
