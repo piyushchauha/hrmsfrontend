@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { use, useEffect, useState } from 'react'
 import { Button } from 'react-bootstrap'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import CommonTable from '../../common/CommonTable';
 import { carrinretService } from './carriageinwardReturnService';
 import { productService } from '../product/ProductService';
+import { stockService } from '../Stock/StockService';
 
 function CarriageInwardreturn() {
     const navigate = useNavigate();
@@ -32,15 +33,32 @@ function CarriageInwardreturn() {
     ]
 
     const tabledata = inwardRetArr.map((inret: any, int: any) => ({
-        No: int + 1,
+        No: ProductNo(inret.ProductID),
         ProductName: getProductName(inret.ProductID),
         InwardReturnQty: inret.inwardReturnQty,
         original: inret,
     }))
 
+    function ProductNo(ProductID: any) {
+
+        const product = productService.GetData();
+        for (let i = 0; i < product.length; i++) {
+            if (product[i].id === Number(ProductID)) {
+                return i + 1;
+            }
+        }
+    }
+
+
     function HandleDelete(inret: any) {
         if (window.confirm("Are you sure you want to delete this record?")) {
             carrinretService.Delete(inret);
+            stockService.Update(
+                Number(inret.ProductID),
+                stockService.getInwardQuantity(inret.ProductID) + Number(inret.inwardReturnQty),
+
+                stockService.getOutwardQuantity(inret.ProductID),
+            )
             setinwardRetArr(carrinretService.GetData());
         }
     }

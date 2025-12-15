@@ -1,15 +1,31 @@
 import React, { useEffect, useState } from 'react'
-import { Table } from 'react-bootstrap';
+// import { Table } from 'react-bootstrap';
 // import { carriageinwardService } from '../carriageinward/carriageInwardService';
 // import { carriageoutwardService } from '../carriageoutward/carriageOutwardService';
 import { Outlet } from 'react-router-dom';
 // import { productService } from '../product/ProductService';
 import { stockService } from './StockService';
+import CommonTable from '../../common/CommonTable';
 // import { productService } from '../user/product/ProductService';
 
 function Stock() {
 
     const [StockArr, setStockArr] = useState<any>([]);
+    const Headers = [
+        { key: 'no', label: 'No.' },
+        { key: 'proname', label: 'Product Name' },
+        { key: 'inwqty', label: 'Inward Quantity' },
+        { key: 'outqty', label: 'Outward Quantity' },
+        { key: 'total', label: 'Total' },
+    ]
+
+    const tabledata = StockArr.map((stock: any, st: any) => ({
+        no: st + 1,
+        proname: stock.ProductName,
+        inwqty: stock.InwardQuantity,
+        outqty: stock.OutwardQuantity,
+        total: stock.Total,
+    }))
 
     useEffect(() => {
         // const product = productService.GetData();
@@ -57,7 +73,7 @@ function Stock() {
             </div>
             <div className='tablecontainer'>
 
-                <Table striped bordered hover>
+                {/* <Table striped bordered hover>
                     <thead>
                         <tr className='trclass'>
                             <th>No.</th>
@@ -82,8 +98,8 @@ function Stock() {
                         ))}
 
                     </tbody>
-                </Table>
-
+                </Table> */}
+                <CommonTable Headers={Headers} data={tabledata} showactions={false} />
             </div>
             <Outlet />
         </div>)

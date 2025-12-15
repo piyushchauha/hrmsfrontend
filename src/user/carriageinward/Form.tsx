@@ -1,8 +1,12 @@
 import React from 'react'
-import CommonDropdwon from '../common/CommonDropdown';
-import { productService } from '../user/product/ProductService';
-import { venderservice } from '../user/vender/VenderService';
+// import CommonDropdwon from '../common/CommonDropdown';
+// import { productService } from '../user/product/ProductService';
+// import { venderservice } from '../user/vender/VenderService';
 import { Form } from 'react-bootstrap';
+import { productService } from '../product/ProductService';
+// import { venderservice } from '../vender/VenderService';
+import CommonDropdwon from '../../common/CommonDropdown';
+import { venderservice } from '../vender/VenderService';
 
 function InwardForm({ FormData, setFormData }: any) {
     let ProductArr: any = [];

@@ -1,4 +1,4 @@
-import { stockService } from "../user/Stock/StockService";
+// import { stockService } from "../Stock/StockService";
 
 class CarriageInward{
 Data:any=[]

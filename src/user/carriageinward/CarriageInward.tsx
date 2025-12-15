@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Table } from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
+// import { carriageinwardService } from './carriageInwardService';
+import { productService } from '../product/ProductService';
+import { venderservice } from '../vender/VenderService';
+import { stockService } from '../Stock/StockService';
+import CommonTable from '../../common/CommonTable';
 import { carriageinwardService } from './carriageInwardService';
-import { productService } from '../user/product/ProductService';
-import { venderservice } from '../user/vender/VenderService';
-import CommonTable from '../common/CommonTable';
-import { stockService } from '../user/Stock/StockService';
+// import { productService } from '../user/product/ProductService';
+// import { venderservice } from '../user/vender/VenderService';
+// import CommonTable from '../common/CommonTable';
+// import { stockService } from '../user/Stock/StockService';
 
 function CarriageInward() {
     const location = useLocation();
@@ -24,14 +29,24 @@ function CarriageInward() {
     }, [location])
 
 
-    let tabledata = InwardArr.map((inward: any, inw: any) => ({
-        No: inw + 1,
+    let tabledata = InwardArr.map((inward: any) => ({
+        No: productNo(inward.ProductID),
         proname: getProductName(inward.ProductID),
         venname: getVenderName(inward.VenderID),
         inwqty: inward.InwardQuantity,
         original: inward,
 
     }))
+
+    function productNo(ProductID: any) {
+        const product = productService.GetData();
+        for (let i = 0; i < product.length; i++) {
+            if (product[i].id === Number(ProductID)) {
+                return i + 1;
+            }
+        }
+    }
+
 
     function getProductName(proid: any) {
         const product = productService.GetById(Number(proid));
@@ -53,22 +68,30 @@ function CarriageInward() {
         // let updatedinward = InwardQuantity - inward.InwardQuantity;
         // console.log(inw);
         // console.log(getProductName(inward.ProductID));
-        if (window.confirm("Are you sure you want to delete this record>")) {
-            const InwardQuantity = stockService.getInwardQuantity(inward.ProductID);
-            let updatedinward = InwardQuantity - inward.InwardQuantity;
+        if (window.confirm("Are you sure you want to delete this record")) {
+            // const InwardQuantity = stockService.getInwardQuantity(inward.ProductID);
+            // let updatedinward = InwardQuantity - inward.InwardQuantity;
+            // console.log("updateinward", updatedinward);
 
             carriageinwardService.Delete(inward);
             // const inw = InwardQuantity - inward.InwardQuantity;
             // console.log(inw);
+            console.log("stockquantity", stockService.getInwardQuantity(inward.ProductID));
+            setInwardArr(carriageinwardService.GetData());
             stockService.Update(inward.ProductID,
                 // stockService.getInwardQuantity(inward.ProductID) - Number(inward.InwardQuantity),
                 // InwardQuantity - inward.InwardQuantity,
-                updatedinward,
+                // updatedinward,
+                stockService.getInwardQuantity(inward.ProductID),
                 stockService.getOutwardQuantity(inward.ProductID)
             );
-            setInwardArr(carriageinwardService.GetData());
+            console.log("sss", stockService.GetData());
+            console.log("stockquantity", stockService.getInwardQuantity(inward.ProductID));
+
+            // console.log(stockService.GetData());
 
         }
+
     }
 
 

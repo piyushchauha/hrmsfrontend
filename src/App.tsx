@@ -26,8 +26,8 @@ import AddVender from './user/vender/Add';
 import Product from './user/product/Product';
 import AddProduct from './user/product/Add';
 // import Stock from './Stock/Stock';
-import CarriageInward from './carriageinward/CarriageInward';
-import AddCarriageinward from './carriageinward/Add';
+// import CarriageInward from './carriageinward/CarriageInward';
+// import AddCarriageinward from './carriageinward/Add';
 import CarriageOutward from './carriageoutward/CarriageOutward';
 import AddCarriageoutward from './carriageoutward/Add';
 import Stock from './user/Stock/Stock';
@@ -36,6 +36,8 @@ import AddCarriageinwardreturn from './user/carriageinwardreturn/Add';
 import CarriageInwardreturn from './user/carriageinwardreturn/CarriageInwardreturn';
 import CarriageOutwardreturn from './user/carriageoutwardreturn/CarriageOutwardreturn';
 import AddCarriageoutwardreturn from './user/carriageoutwardreturn/Add';
+import CarriageInward from './user/carriageinward/CarriageInward';
+import AddCarriageinward from './user/carriageinward/Add';
 
 
 // import CarriageInward from './carriageinward/CarriageInward';

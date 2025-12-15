@@ -111,7 +111,7 @@
 }
 
 .TitleContainer {
-  height: 900px;
+  height: fit-content;
   width: 250px;
   /* background-color: #a997df; */
   background-color: var(--bg-color);

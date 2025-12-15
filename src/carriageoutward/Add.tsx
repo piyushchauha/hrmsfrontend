@@ -3,7 +3,7 @@ import { Button, Modal, ModalBody } from 'react-bootstrap'
 import { useNavigate, useParams } from 'react-router-dom'
 import OutwardForm from './Form';
 import { carriageoutwardService } from './carriageOutwardService';
-import { carriageinwardService } from '../carriageinward/carriageInwardService';
+// import { carriageinwardService } from '../carriageinward/carriageInwardService';
 import { stockService } from '../user/Stock/StockService';
 import { productService } from '../user/product/ProductService';
 

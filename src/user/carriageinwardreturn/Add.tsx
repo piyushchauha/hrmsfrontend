@@ -6,6 +6,7 @@ import CarriageInwardreturnform from './Form';
 import { carrinretService } from './carriageinwardReturnService';
 import { stockService } from '../Stock/StockService';
 import { productService } from '../product/ProductService';
+import { carroutretService } from '../carriageoutwardreturn/carriageoutwardReturnService';
 
 function AddCarriageinwardreturn() {
   const navigate = useNavigate();
@@ -15,6 +16,16 @@ function AddCarriageinwardreturn() {
     id: Date.now(), ProductID: '', inwardReturnQty: ''
   })
 
+
+
+  function CheckQuantity() {
+    let inwardqty = stockService.getInwardQuantity(FormData.ProductID);
+    if (Number(FormData.inwardReturnQty) > Number(inwardqty)) {
+      alert("Inward Return Quantity should be less than Inward quantity");
+      return false;
+    }
+    return true;
+  }
   function HandleSave() {
     let inwardqty = stockService.getInwardQuantity(FormData.ProductID);
     let updatedinwardqty = inwardqty - Number(FormData.inwardReturnQty);
@@ -25,7 +36,9 @@ function AddCarriageinwardreturn() {
       stockService.Add(
         Number(FormData.ProductID),
         product.ProductName,
-        updatedinwardqty,
+        // updatedinwardqty,
+        stockService.getInwardQuantity(FormData.ProductID),
+
         stockService.getOutwardQuantity(FormData.ProductID),
 
       );
@@ -35,11 +48,17 @@ function AddCarriageinwardreturn() {
 
       stockService.Update(
         Number(FormData.ProductID),
-        updatedinwardqty,
+        // updatedinwardqty,
+        stockService.getInwardQuantity(FormData.ProductID),
+
+        // Number(FormData.inwardReturnQty),
         stockService.getOutwardQuantity(FormData.ProductID),
 
       );
 
+    }
+    if (!CheckQuantity()) {
+      return;
     }
     navigate('../');
   }

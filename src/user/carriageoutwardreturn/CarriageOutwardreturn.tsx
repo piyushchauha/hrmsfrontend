@@ -4,6 +4,7 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import CommonTable from '../../common/CommonTable';
 import { carroutretService } from './carriageoutwardReturnService';
 import { productService } from '../product/ProductService';
+import { stockService } from '../Stock/StockService';
 
 function CarriageOutwardreturn() {
     const navigate = useNavigate();
@@ -28,17 +29,33 @@ function CarriageOutwardreturn() {
         { key: 'outwardReturnQty', label: 'Outward ReturnQty' },
     ]
 
-    const tabledata = outwardRetArr.map((outret: any, out: any) => ({
-        No: out + 1,
+    const tabledata = outwardRetArr.map((outret: any) => ({
+        No: ProductNo(outret.ProductID),
         ProductName: getProductName(outret.ProductID),
         outwardReturnQty: outret.outwardReturnQty,
         original: outret,
     }))
 
+    function ProductNo(ProductID: any) {
+
+        const product = productService.GetData();
+        for (let i = 0; i < product.length; i++) {
+            if (product[i].id === Number(ProductID)) {
+                return i + 1;
+            }
+        }
+    }
+
+
 
     function HandleDelete(outret: any) {
         if (window.confirm("Are you sure you want to delte this record?")) {
             carroutretService.Delete(outret);
+            stockService.Update(
+                Number(outret.ProductID),
+                stockService.getInwardQuantity(outret.ProductID),
+                stockService.getOutwardQuantity(outret.ProductID) + Number(outret.outwardReturnQty),
+            )
             setoutwardRetArr(carroutretService.GetData());
         }
     }
@@ -63,7 +80,7 @@ function CarriageOutwardreturn() {
                 </div>
 
             </div>
-            <CommonTable Headers={Headers} data={tabledata} HandleEdit={(row: any) => HandleEdit(row.original)} HandleDelete={(row: any) => HandleDelete(row.original)} />
+            <CommonTable Headers={Headers} data={tabledata} HandleEdit={(row: any) => HandleEdit(row.original)} HandleDelete={(row: any) => HandleDelete(row.original)} showactions={true} />
 
             <Outlet />
         </div>

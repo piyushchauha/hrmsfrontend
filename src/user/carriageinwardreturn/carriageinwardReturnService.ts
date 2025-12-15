@@ -48,7 +48,7 @@ GetById(emp:any){
     let index=-1
     let Data=this.GetData();
     for(let i=0;i<Data.length;i++){
-        if(Data[i].id===emp){
+        if(Number(Data[i].id)===Number(emp)){
             index=i;
             break;
         }
@@ -59,6 +59,19 @@ GetById(emp:any){
 }
 
 
+GetByProductId(emp:any){
+    let index=-1
+    let Data=this.GetData();
+    for(let i=0;i<Data.length;i++){
+        if(Number(Data[i].ProductID)===Number(emp)){
+            index=i;
+            break;
+        }
+    }
+    if(index!==-1){
+        return Data[index];
+    }
+}
 Update(data:any){
     let index=-1;
     let Data=this.Data;

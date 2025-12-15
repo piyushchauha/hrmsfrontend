@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Table } from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { productService } from '../user/product/ProductService';
 import { carriageoutwardService } from './carriageOutwardService';
@@ -23,14 +23,23 @@ function CarriageOutward() {
         setOutwardArr(carriageoutwardService.GetData());
     }, [location])
 
-    let tabledata = OutwardArr.map((outward: any, out: any) => ({
-        no: out + 1,
+    let tabledata = OutwardArr.map((outward: any) => ({
+        no: productNo(outward.ProductID),
         proname: getProductName(outward.ProductID),
         custname: getCustomerName(outward.CustomerID),
         outquant: outward.OutwardQuantity,
         original: outward,
     }))
 
+
+    function productNo(ProductID: any) {
+        const product = productService.GetData();
+        for (let i = 0; i < product.length; i++) {
+            if (product[i].id === Number(ProductID)) {
+                return i + 1;
+            }
+        }
+    }
     function getProductName(proid: any) {
         const product = productService.GetById(Number(proid));
         if (product) {

@@ -3,8 +3,13 @@ import { Button, Modal, ModalBody } from 'react-bootstrap'
 import { useNavigate, useParams } from 'react-router-dom'
 import InwardForm from './Form';
 import { carriageinwardService } from './carriageInwardService';
-import { stockService } from '../user/Stock/StockService';
-import { productService } from '../user/product/ProductService';
+import { productService } from '../product/ProductService';
+import { stockService } from '../Stock/StockService';
+// import { stockService } from '../user/Stock/StockService';
+// import { productService } from '../user/product/ProductService';
+// import { carrinretService } from '../user/carriageinwardreturn/carriageinwardReturnService';
+// import { carroutretService } from '../user/carriageoutwardreturn/carriageoutwardReturnService';
+// import { venderservice } from '../user/vender/VenderService';
 // import { carriageoutwardService } from '../carriageoutward/carriageOutwardService';
 
 function AddCarriageinward() {
@@ -25,12 +30,40 @@ function AddCarriageinward() {
         }
     }, [id])
 
+    // useEffect(() => {
+
+
+    // console.log(carrinretService.GetData());
+    // console.log("ghj", [product.id]);
+    // let inw = carrinretService.GetById(FormData.ProductID);
+    // let out = carroutretService.GetById(FormData.ProductID);
+    // let preInwardReturnQty = inw ? inw.inwardReturnQty : 0;
+    // let preOutwardReturnQty = out ? out.outwardReturnQty : 0;
+    // console.log("preInwardReturnQty", preInwardReturnQty, "preOutwardReturnQty", preOutwardReturnQty);
+    // }, []);
+
+
+    // useEffect(() => {
+    //     let inw = carrinretService.GetById(FormData.ProductID);
+    //     console.log("inw", inw);
+    //     let out = carroutretService.GetById(FormData.ProductID);
+    //     console.log("out", out);
+    //     let preInwardReturnQty = inw ? inw.inwardReturnQty : 0;
+    //     let preOutwardReturnQty = out ? out.outwardReturnQty : 0;
+
+    //     console.log("preinward", preInwardReturnQty, "preoutward", preOutwardReturnQty);
+    // }, [])
     function HandleSave() {
+
+
+
         let product = productService.GetById(Number(FormData.ProductID));
         // let outward = carriageoutwardService.GetData().find((o: any) => o.ProductID === FormData.ProductID)
 
         if (id === 'add') {
+
             carriageinwardService.Add(FormData);
+
 
             stockService.Add(
                 Number(FormData.ProductID),

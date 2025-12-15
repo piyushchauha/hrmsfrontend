@@ -14,30 +14,42 @@ function AddCarriageoutwardreturn() {
     })
     const navigate = useNavigate();
     const { id } = useParams();
+
+    function CheckQuantity() {
+        let outwardqty = stockService.getOutwardQuantity(FormData.ProductID);
+        if (Number(FormData.outwardReturnQty) > Number(outwardqty)) {
+            alert("Outward Return Quantity should be less than Outward quantity");
+            return false;
+        }
+        return true;
+    }
     function HandleSave() {
-        let inwardqty = stockService.getOutwardQuantity(FormData.ProductID);
-        let updatedoutwardqty = inwardqty - Number(FormData.outwardReturnQty);
+        let outwardqty = stockService.getOutwardQuantity(FormData.ProductID);
+        let updatedoutwardqty = outwardqty - Number(FormData.outwardReturnQty);
         let product = productService.GetById(Number(FormData.ProductID));
         if (id === "add") {
             carroutretService.Add(FormData);
             stockService.Add(
                 Number(FormData.ProductID),
                 product.ProductName,
-                updatedoutwardqty,
+                stockService.getInwardQuantity(FormData.ProductID),
+                // updatedoutwardqty,
                 stockService.getOutwardQuantity(FormData.ProductID),
-
             );
         }
         else {
             carroutretService.Update(FormData);
-
             stockService.Update(
                 Number(FormData.ProductID),
-                updatedoutwardqty,
+                stockService.getInwardQuantity(FormData.ProductID),
                 stockService.getOutwardQuantity(FormData.ProductID),
-
+                // updatedoutwardqty,
+                // Number(FormData.outwardReturnQty),
             );
 
+        }
+        if (!CheckQuantity()) {
+            return;
         }
         navigate('../');
     }
@@ -59,7 +71,7 @@ function AddCarriageoutwardreturn() {
             <Modal.Header className='modalheader'>
                 <div className="titleconatiner">
                     <h1 className='headingstyle'>
-                        {id === 'add' ? 'Inward Details' : 'Edit Details'}
+                        {id === 'add' ? 'Inward Return Details' : 'Edit Details'}
                     </h1>
                 </div>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className='svgstyle' onClick={() => navigate('../')}>
